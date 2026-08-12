@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Spider Genesis - Web Jump Real</title>
+    <title>Spider Genesis - Web Jump Limit Edition</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; user-select: none; }
@@ -26,14 +26,13 @@
         .game-card h4 { color: #d4af37; font-size: 11px; margin-top: 4px; }
         .game-icon { width: 100%; height: 55px; background: #000; border: 1px solid #222; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
 
-        /* EXACT MATCH WEB JUMP GAME MODAL */
+        /* EXACT MATCH WEB JUMP SCREEN */
         .webjump-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050505; z-index: 700; flex-direction: column; justify-content: space-between; padding: 10px; }
         
         .game-top-bar { display: flex; justify-content: space-between; align-items: center; background: #0e0e0e; padding: 8px 12px; border: 1px solid #d4af3755; border-radius: 8px; }
         
         #webCanvas { width: 100%; flex: 1; background: radial-gradient(circle, #151515, #020202); border: 2px solid #d4af37; border-radius: 10px; margin: 6px 0; box-shadow: 0 0 25px rgba(212,175,55,0.3); display: block; }
 
-        /* Exact Layout Controls matching your reference image */
         .controls-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 8px; }
         .ctrl-btn { background: linear-gradient(145deg, #181818, #0f0f0f); border: 1px solid #d4af37; color: #ffcc00; padding: 12px 5px; font-weight: bold; border-radius: 10px; text-align: center; cursor: pointer; font-size: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
         .ctrl-btn:active { background: #d4af37; color: #000; transform: scale(0.96); }
@@ -65,9 +64,9 @@
                     <div class="game-icon">❌⭕</div>
                     <h4>PvP Arena</h4>
                 </div>
-                <div class="game-card" style="border-color:#ffcc00;" onclick="openExactGame()">
+                <div class="game-card" style="border-color:#ffcc00;" onclick="openLimitGame()">
                     <div class="game-icon">🕸️⚡</div>
-                    <h4>Spider Web Jump</h4>
+                    <h4>Spider Web Jump <br><span style="font-size:8px; color:#ffcc00;" id="limit-text">Limits: 5/5</span></h4>
                 </div>
                 <div class="game-card" onclick="alert('Fortune Wheel')">
                     <div class="game-icon">🎡</div>
@@ -77,39 +76,38 @@
         </div>
     </div>
 
-    <!-- EXACT REFERENCE GAME SCREEN -->
-    <div id="exactModal" class="webjump-overlay">
+    <!-- EXACT GAME SCREEN WITH COINS & LIMITS -->
+    <div id="limitModal" class="webjump-overlay">
         <div class="game-top-bar">
             <div>
-                <h3 id="spider-coins" style="color: #ffcc00; font-size: 15px;">4200</h3>
+                <h3 id="spider-coins" style="color: #ffcc00; font-size: 15px;">6200</h3>
                 <p style="font-size: 9px; color: #aaa;">Spider Coins</p>
             </div>
             <div style="text-align: center;">
-                <h3 style="color: #d4af37; font-size: 13px;">Spider Web Jump</h3>
-                <p style="font-size: 8px; color: #888;">mini App</p>
+                <h3 style="color: #d4af37; font-size: 12px;">Spider Web Jump</h3>
+                <p style="font-size: 8px; color: #ff4444;" id="popup-limit-info">Jumps Left: 5</p>
             </div>
             <div style="text-align: right;">
-                <h3 id="token-coins" style="color: #ffcc00; font-size: 15px;">420</h3>
+                <h3 id="token-coins" style="color: #ffcc00; font-size: 15px;">510</h3>
                 <p style="font-size: 9px; color: #aaa;">Token Coins</p>
             </div>
         </div>
 
-        <!-- Canvas displaying Webs, Connecting Silk Threads, and Spider -->
+        <!-- Canvas displaying Webs with Coins inside (Win/Loss) -->
         <canvas id="webCanvas"></canvas>
 
-        <!-- EXACT BUTTONS -->
         <div class="controls-row">
-            <div class="ctrl-btn" onclick="jumpSpider()">🕷️ Jump</div>
+            <div class="ctrl-btn" onclick="jumpWithLimit()">🕷️ Jump</div>
             <div class="ctrl-btn" onclick="moveSpider(-35)">◄ Move Left</div>
             <div class="ctrl-btn" onclick="moveSpider(35)">Move Right ►</div>
         </div>
 
-        <button class="btn-gold" onclick="closeExactGame()">CLAIM & EXIT</button>
+        <button class="btn-gold" onclick="closeLimitGame()">CLAIM & EXIT</button>
     </div>
 
     <nav>
         <div class="nav-item active">🏠 Home</div>
-        <div class="nav-item" onclick="openExactGame()">🎮 Games</div>
+        <div class="nav-item" onclick="openLimitGame()">🎮 Games</div>
         <div class="nav-item" onclick="alert('Tasks')">📋 Tasks</div>
         <div class="nav-item" onclick="alert('Friends')">👥 Friends</div>
         <div class="nav-item" onclick="alert('Profile')">👛 Profile</div>
@@ -117,16 +115,24 @@
 
     <script>
         let balance = 23985.75;
+        let dailyLimit = 5; // Total jumps/chances allowed per day/session
+
         function updateBalance() {
             document.getElementById('main-balance').innerText = balance.toFixed(2) + " $SPDR";
+            document.getElementById('limit-text').innerText = `Limits: ${dailyLimit}/5`;
+            document.getElementById('popup-limit-info').innerText = `Jumps Left: ${dailyLimit}`;
         }
 
-        // --- EXACT ENGINE MATCHING REFERENCE IMAGE ---
         let canvas, ctx, animId;
         let sX, sY, sVelY, webs, spiderCoins, tokenCoins;
 
-        function openExactGame() {
-            document.getElementById('exactModal').style.display = 'flex';
+        function openLimitGame() {
+            if (dailyLimit <= 0) {
+                alert("⚠️ Daily Jump Limit Reached! Come back tomorrow for more chances.");
+                return;
+            }
+
+            document.getElementById('limitModal').style.display = 'flex';
             canvas = document.getElementById('webCanvas');
             canvas.width = window.innerWidth - 30;
             canvas.height = window.innerHeight - 240;
@@ -135,24 +141,29 @@
             sX = canvas.width / 2;
             sY = canvas.height - 60;
             sVelY = 0;
-            spiderCoins = 4200;
-            tokenCoins = 420;
+            spiderCoins = 6200;
+            tokenCoins = 510;
 
-            // Generate Golden Webs with multipliers (x1.5, x2.0, x3.0) and connecting threads
+            // Webs containing actual Coin values (Win & Loss mix)
             webs = [
-                {x: canvas.width * 0.3, y: canvas.height * 0.7, r: 35, mult: "x1.5"},
-                {x: canvas.width * 0.55, y: canvas.height * 0.45, r: 42, mult: "x2.0"},
-                {x: canvas.width * 0.75, y: canvas.height * 0.25, r: 48, mult: "x3.0"},
-                {x: canvas.width * 0.4, y: canvas.height * 0.25, r: 28, mult: "x1.5"},
-                {x: canvas.width * 0.6, y: canvas.height * 0.7, r: 32, mult: "x3.0"}
+                {x: canvas.width * 0.35, y: canvas.height * 0.6, r: 40, coinVal: +500, type: 'win'},
+                {x: canvas.width * 0.7, y: canvas.height * 0.4, r: 45, coinVal: +1000, type: 'win'},
+                {x: canvas.width * 0.55, y: canvas.height * 0.2, r: 35, coinVal: +200, type: 'win'},
+                {x: canvas.width * 0.4, y: canvas.height * 0.35, r: 32, coinVal: -300, type: 'loss'} // Loss trap!
             ];
 
             if(animId) cancelAnimationFrame(animId);
             gameLoop();
         }
 
-        function jumpSpider() {
-            sVelY = -9;
+        function jumpWithLimit() {
+            if (dailyLimit <= 0) {
+                alert("⚠️ Limit Over! No jumps remaining.");
+                return;
+            }
+            dailyLimit--; // Reduce limit count
+            updateBalance();
+            sVelY = -9.5;
         }
 
         function moveSpider(val) {
@@ -162,19 +173,16 @@
         }
 
         function gameLoop() {
-            sVelY += 0.35; // Gravity
+            sVelY += 0.35;
             sY += sVelY;
 
-            if(sY > canvas.height - 30) {
-                sY = canvas.height - 30;
-                sVelY = 0;
-            }
+            if(sY > canvas.height - 30) { sY = canvas.height - 30; sVelY = 0; }
             if(sY < 30) sY = 30;
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Draw connecting web silk threads between webs (Background aesthetic)
-            ctx.strokeStyle = 'rgba(212, 175, 55, 0.2)';
+            // Draw connecting web silk threads
+            ctx.strokeStyle = 'rgba(212, 175, 55, 0.25)';
             ctx.lineWidth = 1;
             for(let i=0; i<webs.length; i++) {
                 for(let j=i+1; j<webs.length; j++) {
@@ -185,51 +193,50 @@
                 }
             }
 
-            // Draw Golden Webs with Multipliers
+            // Draw Webs with Coins inside
             for(let w of webs) {
                 ctx.save();
                 ctx.beginPath();
                 ctx.arc(w.x, w.y, w.r, 0, Math.PI * 2);
-                ctx.strokeStyle = '#d4af37';
+                ctx.strokeStyle = w.type === 'win' ? '#d4af37' : '#ff4444';
                 ctx.lineWidth = 2;
                 ctx.stroke();
                 ctx.fillStyle = '#0a0a0a';
                 ctx.fill();
 
-                // Multiplier text inside web
-                ctx.fillStyle = '#ffcc00';
+                // Display Coin amount inside web
+                ctx.fillStyle = w.type === 'win' ? '#ffcc00' : '#ff4444';
                 ctx.font = 'bold 12px Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.fillText(w.mult, w.x, w.y);
+                ctx.fillText((w.coinVal > 0 ? "+" : "") + w.coinVal + " Coins", w.x, w.y);
                 ctx.restore();
 
-                // Check collision with spider to earn coins
+                // Collision Detection with Spider
                 let dx = sX - w.x;
                 let dy = sY - w.y;
                 if(Math.sqrt(dx*dx + dy*dy) < w.r + 15) {
-                    let reward = w.mult === "x3.0" ? 150 : (w.mult === "x2.0" ? 100 : 50);
-                    spiderCoins += reward;
-                    tokenCoins += 5;
+                    if (w.type === 'win') {
+                        spiderCoins += w.coinVal;
+                        tokenCoins += 10;
+                    } else {
+                        spiderCoins += w.coinVal; // Subtracts loss
+                        if(spiderCoins < 0) spiderCoins = 0;
+                    }
                     document.getElementById('spider-coins').innerText = spiderCoins;
                     document.getElementById('token-coins').innerText = tokenCoins;
 
-                    // Shift web position after collection
+                    // Reposition web
                     w.x = Math.random() * (canvas.width - 80) + 40;
                     w.y = Math.random() * (canvas.height - 120) + 40;
                 }
             }
 
-            // Draw Spider Player in the middle with a silk thread connected to top
+            // Draw Silk Thread & Spider
             ctx.strokeStyle = 'rgba(255, 204, 0, 0.4)';
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(sX, sY);
-            ctx.lineTo(sX, sY - 50);
-            ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(sX, sY); ctx.lineTo(sX, sY - 45); ctx.stroke();
 
-            // Spider Emoji
-            ctx.font = '30px Arial';
+            ctx.font = '28px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText("🕷️", sX, sY);
@@ -237,15 +244,15 @@
             animId = requestAnimationFrame(gameLoop);
         }
 
-        function closeExactGame() {
+        function closeLimitGame() {
             cancelAnimationFrame(animId);
-            let earnedSpider = spiderCoins - 4200;
-            if(earnedSpider > 0) {
-                balance += earnedSpider;
+            let earned = spiderCoins - 6200;
+            if(earned !== 0) {
+                balance += earned;
                 updateBalance();
-                alert(`Amazing! Added +${earnedSpider} Spider Coins to your main wallet balance.`);
+                alert(`Session Over! ${earned > 0 ? '+' : ''}${earned} Coins added/deducted from your main balance.`);
             }
-            document.getElementById('exactModal').style.display = 'none';
+            document.getElementById('limitModal').style.display = 'none';
         }
     </script>
 </body>
