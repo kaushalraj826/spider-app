@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Spider Genesis - Pro Arcade</title>
+    <title>Spider Genesis - Web Jump</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; user-select: none; }
         body { background-color: #030303; color: #f3f3f3; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
         
         header { background: #080808; padding: 10px 15px; border-bottom: 2px solid #d4af37; display: flex; justify-content: space-between; align-items: center; }
@@ -21,20 +21,24 @@
         .balance-display { text-align: center; background: #121212; border: 1px solid #d4af3788; border-radius: 12px; padding: 14px; margin-bottom: 12px; }
         .balance-display h2 { color: #ffcc00; font-size: 26px; font-weight: 900; margin-top: 4px; text-shadow: 0 0 10px rgba(255,204,0,0.3); }
 
-        .tap-box { text-align: center; padding: 15px; background: #0a0a0a; border: 1px solid #222; border-radius: 12px; margin-bottom: 12px; }
-        .spider-btn { width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle, #222, #000); border: 3px solid #d4af37; margin: 10px auto; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(212,175,55,0.4); cursor: pointer; }
-        .spider-btn:active { transform: scale(0.92); }
-
         .game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
         .game-card { background: #090909; border: 1px solid #d4af3755; border-radius: 10px; padding: 8px; text-align: center; cursor: pointer; }
         .game-card h4 { color: #d4af37; font-size: 11px; margin-top: 4px; }
         .game-icon { width: 100%; height: 55px; background: #000; border: 1px solid #222; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
 
-        /* Full Screen Immersive Arcade Screen */
-        .arcade-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #030303; z-index: 600; flex-direction: column; justify-content: space-between; padding: 15px; }
-        #arcadeCanvas { width: 100%; flex: 1; background: radial-gradient(circle, #111, #000); border: 2px solid #d4af37; border-radius: 12px; margin: 10px 0; box-shadow: 0 0 25px rgba(212,175,55,0.3); }
+        /* EXACT MATCH WEB JUMP SCREEN */
+        .webjump-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050505; z-index: 700; flex-direction: column; justify-content: space-between; padding: 15px; }
+        
+        .game-top-bar { display: flex; justify-content: space-between; align-items: center; background: #111; padding: 8px 12px; border: 1px solid #d4af3755; border-radius: 8px; }
+        
+        #webCanvas { width: 100%; flex: 1; background: radial-gradient(circle, #151515, #020202); border: 2px solid #d4af37; border-radius: 10px; margin: 10px 0; box-shadow: 0 0 25px rgba(212,175,55,0.3); display: block; }
 
-        .btn-gold { background: linear-gradient(135deg, #d4af37, #9a7805); color: #000; border: none; padding: 12px; font-weight: 800; border-radius: 8px; cursor: pointer; width: 100%; font-size: 13px; text-transform: uppercase; box-shadow: 0 4px 15px rgba(212,175,55,0.3); }
+        /* Control Buttons matching your blueprint */
+        .controls-row { display: flex; gap: 10px; margin-bottom: 10px; }
+        .ctrl-btn { flex: 1; background: linear-gradient(145deg, #1a1a1a, #111); border: 1px solid #d4af37; color: #ffcc00; padding: 14px; font-weight: bold; border-radius: 8px; text-align: center; cursor: pointer; font-size: 13px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .ctrl-btn:active { background: #d4af37; color: #000; transform: scale(0.96); }
+
+        .btn-gold { background: linear-gradient(135deg, #d4af37, #9a7805); color: #000; border: none; padding: 12px; font-weight: 900; border-radius: 8px; cursor: pointer; width: 100%; font-size: 13px; text-transform: uppercase; box-shadow: 0 4px 15px rgba(212,175,55,0.4); }
 
         nav { display: flex; background: #0a0a0a; border-top: 1px solid #222; position: fixed; bottom: 0; width: 100%; height: 60px; z-index: 200; }
         .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #777; font-size: 10px; cursor: pointer; }
@@ -54,26 +58,18 @@
             <h2 id="main-balance">23,985.75 $SPDR</h2>
         </div>
 
-        <div class="tap-box">
-            <h3>Tap to Mine Spider Coin</h3>
-            <div class="spider-btn" onclick="tapMining()">
-                <span style="font-size: 40px;">🕷️</span>
-            </div>
-            <p style="font-size: 12px; color: #aaa;">Energy: <span id="energy-bar">840</span> / 1,000</p>
-        </div>
-
         <div class="card">
             <h3>Internal Game Realms</h3>
             <div class="game-grid">
-                <div class="game-card" onclick="alert('Open Tic-Tac-Toe from Games tab')">
+                <div class="game-card" onclick="alert('Tic-Tac-Toe Arena')">
                     <div class="game-icon">❌⭕</div>
                     <h4>PvP Arena</h4>
                 </div>
-                <div class="game-card" onclick="launchArcadeGame()">
+                <div class="game-card" style="border-color:#ffcc00;" onclick="openWebJumpGame()">
                     <div class="game-icon">🕸️⚡</div>
-                    <h4>Web Jump Pro</h4>
+                    <h4>Spider Web Jump</h4>
                 </div>
-                <div class="game-card" onclick="alert('Fortune Wheel Active')">
+                <div class="game-card" onclick="alert('Fortune Wheel')">
                     <div class="game-icon">🎡</div>
                     <h4>Fortune Wheel</h4>
                 </div>
@@ -81,162 +77,146 @@
         </div>
     </div>
 
-    <!-- FULL SCREEN PRO ARCADE GAME INTERFACE -->
-    <div id="arcadeScreen" class="arcade-screen">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h2 style="color: #d4af37; font-size: 16px;">🕷️ Spider Web Jump - Pro</h2>
-            <button onclick="endArcadeGame()" style="background:none; border:none; color:#ffcc00; font-size:22px; cursor:pointer; font-weight:bold;">✕</button>
+    <!-- EXACT BLUEPRINT WEB JUMP GAME SCREEN -->
+    <div id="webjumpModal" class="webjump-overlay">
+        <div class="game-top-bar">
+            <div>
+                <p style="font-size: 10px; color: #aaa;">Spider Coins</p>
+                <h3 id="live-game-coins" style="color: #ffcc00; font-size: 16px;">4200</h3>
+            </div>
+            <h3 style="color: #d4af37; font-size: 14px;">Spider Web Jump</h3>
+            <button onclick="closeWebJumpGame()" style="background:none; border:none; color:#ffcc00; font-size:20px; cursor:pointer;">✕</button>
         </div>
-        
-        <canvas id="arcadeCanvas"></canvas>
 
-        <button class="btn-gold" onclick="endArcadeGame()">CLAIM & EXIT</button>
+        <!-- Canvas where Spider & Golden Webs move -->
+        <canvas id="webCanvas"></canvas>
+
+        <!-- EXACT CONTROLS FROM BLUEPRINT SCREENSHOT -->
+        <div class="controls-row">
+            <div class="ctrl-btn" onclick="spiderJumpAction()">🕷️ Jump</div>
+            <div class="ctrl-btn" onclick="spiderMove(-25)">◀ Move Left</div>
+            <div class="ctrl-btn" onclick="spiderMove(25)">Move Right ▶</div>
+        </div>
+
+        <button class="btn-gold" onclick="closeWebJumpGame()">CLAIM & EXIT</button>
     </div>
 
     <nav>
         <div class="nav-item active">🏠 Home</div>
-        <div class="nav-item" onclick="launchArcadeGame()">🎮 Games</div>
-        <div class="nav-item" onclick="alert('Tasks Hub')">📋 Tasks</div>
-        <div class="nav-item" onclick="alert('Referral Copied')">👥 Friends</div>
-        <div class="nav-item" onclick="alert('Wallet Connected')">👛 Profile</div>
+        <div class="nav-item" onclick="openWebJumpGame()">🎮 Games</div>
+        <div class="nav-item" onclick="alert('Tasks')">📋 Tasks</div>
+        <div class="nav-item" onclick="alert('Friends')">👥 Friends</div>
+        <div class="nav-item" onclick="alert('Profile')">👛 Profile</div>
     </nav>
 
     <script>
         let balance = 23985.75;
-        let energy = 840;
-
         function updateBalance() {
             document.getElementById('main-balance').innerText = balance.toFixed(2) + " $SPDR";
         }
 
-        function tapMining() {
-            if (energy > 0) {
-                balance += 1.5;
-                energy -= 2;
-                updateBalance();
-                document.getElementById('energy-bar').innerText = energy;
-            }
-        }
+        // --- WEB JUMP GAME ENGINE MATCHING BLUEPRINT ---
+        let canvas, ctx, animId;
+        let spiderX, spiderY, spiderVelY, websList, gameScore;
 
-        // --- HIGH-END PRO ARCADE GAME ENGINE ---
-        let canvas, ctx;
-        let animationId;
-        let spider, webs, score, gameRunning;
-
-        function launchArcadeGame() {
-            document.getElementById('arcadeScreen').style.display = 'flex';
-            canvas = document.getElementById('arcadeCanvas');
+        function openWebJumpGame() {
+            document.getElementById('webjumpModal').style.display = 'flex';
+            canvas = document.getElementById('webCanvas');
             canvas.width = window.innerWidth - 30;
-            canvas.height = window.innerHeight - 180;
+            canvas.height = window.innerHeight - 240;
             ctx = canvas.getContext('2d');
 
-            spider = { x: 60, y: canvas.height / 2, radius: 18, velocity: 0, gravity: 0.35, lift: -7.5 };
-            webs = [];
-            score = 0;
-            gameRunning = true;
+            spiderX = canvas.width / 2;
+            spiderY = canvas.height - 80;
+            spiderVelY = 0;
+            gameScore = 4200; // Starting score as in screenshot
 
-            // Touch or Click to Jump
-            canvas.onclick = () => {
-                if (gameRunning) spider.velocity = spider.lift;
-            };
-
-            if (animationId) cancelAnimationFrame(animationId);
-            arcadeLoop();
-        }
-
-        function arcadeLoop() {
-            if (!gameRunning) return;
-
-            // Physics update
-            spider.velocity += spider.gravity;
-            spider.y += spider.velocity;
-
-            // Generate Webs
-            if (Math.random() < 0.025) {
-                webs.push({
-                    x: canvas.width,
-                    y: Math.random() * (canvas.height - 150) + 75,
-                    radius: 28,
-                    passed: false
+            // Generate floating golden webs
+            websList = [];
+            for(let i=0; i<5; i++) {
+                websList.push({
+                    x: Math.random() * (canvas.width - 60) + 30,
+                    y: Math.random() * (canvas.height - 100) + 30,
+                    radius: 25,
+                    multiplier: (Math.random() * 2 + 1).toFixed(1)
                 });
             }
 
-            // Move Webs
-            for (let i = webs.length - 1; i >= 0; i--) {
-                webs[i].x -= 3.5;
+            if(animId) cancelAnimationFrame(animId);
+            runWebJumpLoop();
+        }
 
-                // Collision Detection
-                let dx = spider.x - webs[i].x;
-                let dy = spider.y - webs[i].y;
-                let distance = Math.sqrt(dx * dx + dy * dy);
+        function spiderJumpAction() {
+            spiderVelY = -10; // Jump up
+        }
 
-                if (distance < spider.radius + webs[i].radius) {
-                    score += 25; // collect points on web hit
-                    webs.splice(i, 1);
-                    continue;
-                }
+        function spiderMove(val) {
+            spiderX += val;
+            if(spiderX < 20) spiderX = 20;
+            if(spiderX > canvas.width - 20) spiderX = canvas.width - 20;
+        }
 
-                // Remove off-screen webs
-                if (webs[i].x < -50) {
-                    webs.splice(i, 1);
-                }
+        function runWebJumpLoop() {
+            // Gravity physics
+            spiderVelY += 0.4;
+            spiderY += spiderVelY;
+
+            // Floor & ceiling limits
+            if(spiderY > canvas.height - 30) {
+                spiderY = canvas.height - 30;
+                spiderVelY = 0;
             }
+            if(spiderY < 30) spiderY = 30;
 
-            // Boundary check (Floor / Ceiling)
-            if (spider.y > canvas.height - 20 || spider.y < 20) {
-                gameRunning = false;
-            }
-
-            // --- RENDER GRAPHICS ---
+            // Clear canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Draw Glowing Webs
-            for (let w of webs) {
-                ctx.save();
-                ctx.strokeStyle = '#d4af37';
-                ctx.lineWidth = 2;
+            // Draw glowing background web particles
+            ctx.strokeStyle = '#d4af3733';
+            ctx.lineWidth = 1;
+            for(let w of websList) {
                 ctx.beginPath();
                 ctx.arc(w.x, w.y, w.radius, 0, Math.PI * 2);
                 ctx.stroke();
+
+                // Draw golden web icon & multiplier
                 ctx.fillStyle = '#ffcc00';
-                ctx.font = '16px Arial';
-                ctx.fillText("🕸️", w.x - 10, w.y + 6);
-                ctx.restore();
+                ctx.font = '14px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText("🕸️", w.x, w.y - 2);
+                ctx.font = '10px Arial';
+                ctx.fillText("+" + w.multiplier + "x", w.x, w.y + 16);
+
+                // Collision with spider to collect points
+                let dx = spiderX - w.x;
+                let dy = spiderY - w.y;
+                if(Math.sqrt(dx*dx + dy*dy) < 30) {
+                    gameScore += Math.floor(w.multiplier * 50);
+                    document.getElementById('live-game-coins').innerText = gameScore;
+                    // Reset web position
+                    w.x = Math.random() * (canvas.width - 60) + 30;
+                    w.y = Math.random() * (canvas.height - 100) + 30;
+                }
             }
 
             // Draw Spider Player
-            ctx.save();
-            ctx.font = '30px Arial';
-            ctx.fillText("🕷️", spider.x - 15, spider.y + 10);
-            ctx.restore();
+            ctx.font = '32px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText("🕷️", spiderX, spiderY);
 
-            // Draw Score Board inside game
-            ctx.fillStyle = '#ffcc00';
-            ctx.font = 'bold 18px Arial';
-            ctx.fillText("SCORE: " + score, 20, 35);
-
-            if (gameRunning) {
-                animationId = requestAnimationFrame(arcadeLoop);
-            } else {
-                ctx.fillStyle = 'rgba(0,0,0,0.85)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = '#ffcc00';
-                ctx.font = 'bold 24px Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2 - 20);
-                ctx.fillStyle = '#fff';
-                ctx.font = '16px Arial';
-                ctx.fillText("Total Earned: +" + score + " $SPDR", canvas.width / 2, canvas.height / 2 + 20);
-            }
+            animId = requestAnimationFrame(runWebJumpLoop);
         }
 
-        function endArcadeGame() {
-            gameRunning = false;
-            cancelAnimationFrame(animationId);
-            balance += score;
-            updateBalance();
-            document.getElementById('arcadeScreen').style.display = 'none';
-            if(score > 0) alert("Awesome! +" + score + " $SPDR added to your balance.");
+        function closeWebJumpGame() {
+            cancelAnimationFrame(animId);
+            let earned = gameScore - 4200;
+            if(earned > 0) {
+                balance += earned;
+                updateBalance();
+                alert(`Game Saved! Added +${earned} $SPDR to your total balance.`);
+            }
+            document.getElementById('webjumpModal').style.display = 'none';
         }
     </script>
 </body>
