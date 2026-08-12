@@ -1,123 +1,139 @@
-here<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Spider Genesis - Mini App</title>
+    <title>Spider Genesis - Ultimate Ecosystem</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #0b0b0b; color: #f3f3f3; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-        header { background: linear-gradient(135deg, #1a1a1a, #0b0b0b); padding: 15px; text-align: center; border-bottom: 2px solid #d4af37; }
-        header h1 { color: #d4af37; font-size: 20px; letter-spacing: 1px; }
-        .balance-container { padding: 15px; text-align: center; background: #141414; margin: 10px; border-radius: 12px; border: 1px solid #333; }
-        .balance-container h2 { color: #ffcc00; font-size: 24px; margin-top: 5px; }
-        .content { flex: 1; overflow-y: auto; padding: 15px; display: none; }
-        .content.active { display: block; }
-        .card { background: #181818; border: 1px solid #333; border-radius: 10px; padding: 15px; margin-bottom: 15px; text-align: center; }
-        .btn { background: linear-gradient(135deg, #d4af37, #aa820a); color: #000; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px; width: 100%; }
-        nav { display: flex; background: #111; border-top: 1px solid #222; position: fixed; bottom: 0; width: 100%; height: 60px; }
-        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #888; font-size: 11px; cursor: pointer; text-decoration: none; }
-        .nav-item.active { color: #d4af37; }
+        body { background-color: #050505; color: #f3f3f3; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        header { background: #0f0f0f; padding: 12px; text-align: center; border-bottom: 2px solid #d4af37; display: flex; justify-content: space-between; align-items: center; }
+        header h1 { color: #d4af37; font-size: 16px; letter-spacing: 1px; }
+        .badge { background: #d4af37; color: #000; font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: bold; }
+        
+        .balance-box { background: linear-gradient(145deg, #121212, #1a1a1a); margin: 10px; padding: 15px; border-radius: 12px; border: 1px solid #d4af3755; text-align: center; }
+        .balance-box h2 { color: #ffcc00; font-size: 26px; margin-top: 4px; text-shadow: 0 0 10px rgba(255,204,0,0.3); }
+
+        .container { flex: 1; overflow-y: auto; padding: 10px 10px 70px 10px; display: none; }
+        .container.active { display: block; }
+        
+        .section-card { background: #111; border: 1px solid #222; border-radius: 10px; padding: 15px; margin-bottom: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .section-card h3 { color: #d4af37; font-size: 15px; margin-bottom: 8px; }
+        
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+        .mini-btn { background: #1a1a1a; border: 1px solid #d4af37; color: #d4af37; padding: 10px 5px; border-radius: 8px; text-align: center; font-size: 11px; cursor: pointer; font-weight: bold; }
+        .mini-btn:active { background: #d4af37; color: #000; }
+
+        .main-tap-circle { width: 160px; height: 160px; border-radius: 50%; background: radial-gradient(circle, #222, #000); border: 3px solid #d4af37; margin: 20px auto; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(212,175,55,0.4); cursor: pointer; }
+        
+        nav { display: flex; background: #0d0d0d; border-top: 1px solid #222; position: fixed; bottom: 0; width: 100%; height: 60px; z-index: 100; }
+        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #777; font-size: 10px; cursor: pointer; }
+        .nav-item.active { color: #d4af37; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>SPIDER GENESIS HUB</h1>
+        <h1>SPIDER GENESIS</h1>
+        <div class="badge">VIP 3 / LVL 42</div>
     </header>
 
-    <div class="balance-container">
-        <p>Total Balance</p>
-        <h2 id="balance">23,985.75 $SPDR</h2>
+    <div class="balance-box">
+        <p style="font-size: 12px; color: #888;">TOTAL REWARD POOL & BALANCE</p>
+        <h2 id="balance-display">23,985.75 $SPDR</h2>
     </div>
 
-    <!-- TAB 1: TAP / HOME -->
-    <div id="tab-home" class="content active">
-        <div class="card">
-            <h3>User Level 42 / VIP 3</h3>
-            <p style="color: #aaa; font-size: 13px; margin-top: 5px;">Passive Bot: Level 3 | Multi-Jump: Level II</p>
-            <button class="btn" onclick="tapCoin()">TAP SPIDER</button>
+    <!-- HOME / TAP TAB -->
+    <div id="tab-home" class="container active">
+        <div class="section-card" style="text-align: center;">
+            <h3>Tap to Mine Spider Coin</h3>
+            <div class="main-tap-circle" onclick="tapAction()">
+                <span style="font-size: 40px;">🕷️</span>
+            </div>
+            <p style="font-size: 12px; color: #aaa;">Energy: <span id="energy-val">840</span> / 1,000</p>
         </div>
-        <div class="card">
-            <h3>Daily Catch Prey</h3>
-            <p style="color: #aaa; font-size: 13px;">Claim your daily rewards and boosters.</p>
-            <button class="btn" onclick="claimReward()">Claim Reward</button>
-        </div>
-    </div>
-
-    <!-- TAB 2: GAMES -->
-    <div id="tab-games" class="content">
-        <div class="card">
-            <h3>Tic-Tac-Toe Arena</h3>
-            <p style="color: #aaa; font-size: 13px;">Play PvP and win tokens.</p>
-            <button class="btn" onclick="alert('Starting Tic-Tac-Toe Arena...')">Play Now</button>
-        </div>
-        <div class="card">
-            <h3>Spider Web Jump</h3>
-            <p style="color: #aaa; font-size: 13px;">Jump across webs to multiply score.</p>
-            <button class="btn" onclick="alert('Launching Web Jump...')">Play Game</button>
-        </div>
-        <div class="card">
-            <h3>Spider Fortune Wheel</h3>
-            <p style="color: #aaa; font-size: 13px;">Spin and win mystery boxes.</p>
-            <button class="btn" onclick="alert('Spinning Wheel...')">Spin Now</button>
+        <div class="section-card">
+            <h3>Active Boosters & Vault</h3>
+            <p style="font-size: 12px; color: #888;">Passive Bot: Level 3 | Multi-Jump: Level II</p>
         </div>
     </div>
 
-    <!-- TAB 3: TASKS -->
-    <div id="tab-tasks" class="content">
-        <div class="card">
-            <h3>Community Tasks</h3>
-            <p style="color: #aaa; font-size: 13px;">Join Telegram channel & Twitter for +5000 $SPDR</p>
-            <button class="btn" onclick="alert('Task Completed!')">Verify Task</button>
+    <!-- GAMES REALMS TAB -->
+    <div id="tab-games" class="container">
+        <div class="section-card">
+            <h3>Internal Game Realms</h3>
+            <div class="grid-3">
+                <div class="mini-btn" onclick="openGame('Tic-Tac-Toe Arena')">Tic-Tac-Toe</div>
+                <div class="mini-btn" onclick="openGame('Spider Web Jump')">Web Jump</div>
+                <div class="mini-btn" onclick="openGame('Fortune Wheel')">Fortune Wheel</div>
+            </div>
         </div>
     </div>
 
-    <!-- TAB 4: FRIENDS / REF -->
-    <div id="tab-friends" class="content">
-        <div class="card">
+    <!-- TASKS TAB -->
+    <div id="tab-tasks" class="container">
+        <div class="section-card">
+            <h3>Catch Prey & Tasks</h3>
+            <p style="font-size: 12px; color: #888; margin-bottom: 10px;">Complete tasks to unlock instant token rewards.</p>
+            <button class="mini-btn" style="width:100%; padding: 12px;" onclick="alert('Task Verified! +500 $SPDR Added')">Verify Telegram Channel</button>
+        </div>
+    </div>
+
+    <!-- FRIENDS / REF TAB -->
+    <div id="tab-friends" class="container">
+        <div class="section-card">
             <h3>Referral Network</h3>
-            <p style="color: #aaa; font-size: 13px;">Invite friends and earn 10% commission.</p>
-            <button class="btn" onclick="copyRefLink()">Generate Referral Link</button>
+            <p style="font-size: 12px; color: #888; margin-bottom: 10px;">Invite friends to build your web and earn direct commissions.</p>
+            <button class="mini-btn" style="width:100%; padding: 12px;" onclick="copyReferral()">Generate Referral Link</button>
         </div>
     </div>
 
-    <!-- TAB 5: PROFILE / WALLET -->
-    <div id="tab-profile" class="content">
-        <div class="card">
-            <h3>Wallet & NFT Hub</h3>
-            <p style="color: #aaa; font-size: 13px;">Connected: TON Wallet</p>
-            <button class="btn" onclick="alert('Wallet Connected Successfully!')">Manage Assets</button>
+    <!-- PROFILE & WALLET TAB -->
+    <div id="tab-profile" class="container">
+        <div class="section-card">
+            <h3>NFT Marketplace & Wallet</h3>
+            <p style="font-size: 12px; color: #888; margin-bottom: 10px;">Connected TON Wallet: Ready</p>
+            <button class="mini-btn" style="width:100%; padding: 12px;" onclick="alert('TON Connect Initialized')">Disconnect / Manage</button>
         </div>
     </div>
 
-    <!-- BOTTOM NAVIGATION -->
+    <!-- NAVIGATION BAR -->
     <nav>
         <div class="nav-item active" onclick="switchTab('home', this)">🏠 Home</div>
         <div class="nav-item" onclick="switchTab('games', this)">🎮 Games</div>
         <div class="nav-item" onclick="switchTab('tasks', this)">📋 Tasks</div>
         <div class="nav-item" onclick="switchTab('friends', this)">👥 Friends</div>
-        <div class="nav-item" onclick="switchTab('profile', this)">👛 Wallet</div>
+        <div class="nav-item" onclick="switchTab('profile', this)">👛 Profile</div>
     </nav>
 
     <script>
         let score = 23985.75;
-        function tapCoin() {
-            score += 1.5;
-            document.getElementById('balance').innerText = score.toFixed(2) + " $SPDR";
+        let energy = 840;
+
+        function tapAction() {
+            if (energy > 0) {
+                score += 1.5;
+                energy -= 2;
+                document.getElementById('balance-display').innerText = score.toFixed(2) + " $SPDR";
+                document.getElementById('energy-val').innerText = energy;
+            }
         }
-        function claimReward() {
-            score += 100;
-            document.getElementById('balance').innerText = score.toFixed(2) + " $SPDR";
-            alert("100 $SPDR Claimed Successfully!");
+
+        function openGame(gameName) {
+            alert("Launching " + gameName + " Arena...");
         }
-        function copyRefLink() {
-            navigator.clipboard.writeText("https://t.me/SpiderCoinWalletBot?start=ref123");
-            alert("Referral link copied to clipboard!");
+
+        function copyReferral() {
+            const tg = window.Telegram.WebApp;
+            const user = tg.initDataUnsafe?.user;
+            const refLink = `https://t.me/SpiderCoinWalletBot?start=ref_${user ? user.id : '12345'}`;
+            navigator.clipboard.writeText(refLink);
+            alert("Referral link copied: " + refLink);
         }
+
         function switchTab(tabId, element) {
-            document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.container').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             document.getElementById('tab-' + tabId).classList.add('active');
             element.classList.add('active');
