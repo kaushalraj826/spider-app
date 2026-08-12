@@ -5,51 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Spider Genesis - Elite Mini App</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; user-select: none; }
-        body { background-color: #030303; color: #f3f3f3; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-        
-        header { background: #080808; padding: 10px 15px; border-bottom: 2px solid #d4af37; display: flex; justify-content: space-between; align-items: center; }
-        header h1 { color: #d4af37; font-size: 15px; font-weight: 800; letter-spacing: 1px; }
-        .vip-badge { background: #d4af37; color: #000; font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: bold; }
-
-        .app-container { flex: 1; overflow-y: auto; padding: 12px; padding-bottom: 75px; display: none; }
-        .app-container.active-tab { display: block; }
-
-        .card { background: #0d0d0d; border: 1px solid #d4af3744; border-radius: 12px; padding: 12px; margin-bottom: 12px; }
-        .card h3 { color: #d4af37; font-size: 12px; margin-bottom: 8px; text-transform: uppercase; }
-
-        .balance-display { text-align: center; background: #121212; border: 1px solid #d4af3788; border-radius: 12px; padding: 14px; margin-bottom: 12px; }
-        .balance-display h2 { color: #ffcc00; font-size: 26px; font-weight: 900; margin-top: 4px; text-shadow: 0 0 10px rgba(255,204,0,0.3); }
-
-        .game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
-        .game-card { background: #090909; border: 1px solid #d4af3755; border-radius: 10px; padding: 8px; text-align: center; cursor: pointer; }
-        .game-card h4 { color: #d4af37; font-size: 10px; margin-top: 4px; }
-        .game-icon { width: 100%; height: 50px; background: #000; border: 1px solid #222; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
-
-        /* OVERLAYS FOR GAMES */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050505; z-index: 700; flex-direction: column; justify-content: space-between; padding: 12px; }
-        .game-top-bar { display: flex; justify-content: space-between; align-items: center; background: #0e0e0e; padding: 8px 12px; border: 1px solid #d4af3755; border-radius: 8px; }
-        
-        #webCanvas { width: 100%; flex: 1; background: radial-gradient(circle, #151515, #020202); border: 2px solid #d4af37; border-radius: 10px; margin: 6px 0; box-shadow: 0 0 25px rgba(212,175,55,0.3); display: block; }
-
-        .controls-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 8px; }
-        .ctrl-btn { background: linear-gradient(145deg, #181818, #0f0f0f); border: 1px solid #d4af37; color: #ffcc00; padding: 12px 5px; font-weight: bold; border-radius: 10px; text-align: center; cursor: pointer; font-size: 12px; }
-        .ctrl-btn:active { background: #d4af37; color: #000; }
-
-        .btn-gold { background: linear-gradient(135deg, #d4af37, #9a7805); color: #000; border: none; padding: 14px; font-weight: 900; border-radius: 10px; cursor: pointer; width: 100%; font-size: 13px; text-transform: uppercase; }
-
-        /* Tic Tac Toe Grid */
-        .ttt-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 250px; height: 250px; margin: 20px auto; }
-        .ttt-cell { background: #111; border: 2px solid #d4af37; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 32px; cursor: pointer; color: #ffcc00; }
-
-        /* Bottom Navigation Bar */
-        nav { display: flex; background: #0a0a0a; border-top: 1px solid #222; position: fixed; bottom: 0; width: 100%; height: 60px; z-index: 200; }
-        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #777; font-size: 10px; cursor: pointer; }
-        .nav-item.active { color: #d4af37; font-weight: bold; }
-
-        .list-item { background: #111; border: 1px solid #333; padding: 10px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -58,11 +14,11 @@
         <div class="vip-badge">VIP 3 / LVL 42</div>
     </header>
 
-    <!-- TAB 1: HOME -->
+    <!-- HOME TAB -->
     <div id="tab-home" class="app-container active-tab">
         <div class="balance-display">
             <p style="font-size: 11px; color: #888;">TOTAL REWARD POOL & BALANCE</p>
-            <h2 id="main-balance">26,585.75 $SPDR</h2>
+            <h2 id="main-balance">23,985.75 $SPDR</h2>
         </div>
 
         <div class="card">
@@ -72,9 +28,9 @@
                     <div class="game-icon">❌⭕</div>
                     <h4>PvP Arena</h4>
                 </div>
-                <div class="game-card" style="border-color:#ffcc00;" onclick="openLimitGame()">
+                <div class="game-card" style="border-color:#ffcc00;" onclick="openWebJump()">
                     <div class="game-icon">🕸️⚡</div>
-                    <h4>Web Jump <br><span style="font-size:8px; color:#ffcc00;" id="limit-text">Limits: 5/5</span></h4>
+                    <h4>Spider Web Jump</h4>
                 </div>
                 <div class="game-card" onclick="openFortuneWheel()">
                     <div class="game-icon">🎡</div>
@@ -84,84 +40,87 @@
         </div>
     </div>
 
-    <!-- TAB 2: GAMES LIST -->
+    <!-- GAMES TAB -->
     <div id="tab-games" class="app-container">
         <div class="card">
-            <h3>All Available Mini Games</h3>
-            <div class="list-item" onclick="openLimitGame()">
-                <div><h4>Spider Web Jump</h4><p style="font-size:9px; color:#aaa;">Jump & collect coin multipliers</p></div>
+            <h3>Game Realms Hub</h3>
+            <div class="list-item" onclick="openWebJump()">
+                <div><h4>Spider Web Jump</h4><p style="font-size:9px; color:#aaa;">Multipliers path & coin collection</p></div>
                 <button class="vip-badge" style="border:none; cursor:pointer;">Play</button>
             </div>
             <div class="list-item" onclick="openPvPArena()">
-                <div><h4>Tic-Tac-Toe Arena</h4><p style="font-size:9px; color:#aaa;">PvP Multiplayer Combat</p></div>
+                <div><h4>Tic-Tac-Toe PvP</h4><p style="font-size:9px; color:#aaa;">Combat arena match</p></div>
                 <button class="vip-badge" style="border:none; cursor:pointer;">Play</button>
             </div>
             <div class="list-item" onclick="openFortuneWheel()">
-                <div><h4>Spider Fortune Wheel</h4><p style="font-size:9px; color:#aaa;">Spin & win massive tokens</p></div>
+                <div><h4>Fortune Wheel</h4><p style="font-size:9px; color:#aaa;">Daily mystery box & spins</p></div>
                 <button class="vip-badge" style="border:none; cursor:pointer;">Play</button>
             </div>
         </div>
     </div>
 
-    <!-- TAB 3: TASKS (REAL PAGE, NO ALERTS) -->
+    <!-- TASKS TAB -->
     <div id="tab-tasks" class="app-container">
         <div class="card">
-            <h3>Daily Earn Tasks</h3>
+            <h3>Daily Earn & Check-in</h3>
             <div class="list-item">
                 <div><h4>Join Telegram Channel</h4><p style="font-size:9px; color:#ffcc00;">+1,000 $SPDR</p></div>
                 <button class="vip-badge" onclick="completeTask(1000, this)" style="border:none; cursor:pointer;">Claim</button>
             </div>
             <div class="list-item">
-                <div><h4>Follow Twitter / X</h4><p style="font-size:9px; color:#ffcc00;">+500 $SPDR</p></div>
+                <div><h4>Daily Check-in</h4><p style="font-size:9px; color:#ffcc00;">+500 $SPDR</p></div>
                 <button class="vip-badge" onclick="completeTask(500, this)" style="border:none; cursor:pointer;">Claim</button>
             </div>
-            <div class="list-item">
-                <div><h4>Invite 3 Friends</h4><p style="font-size:9px; color:#ffcc00;">+2,000 $SPDR</p></div>
-                <button class="vip-badge" onclick="completeTask(2000, this)" style="border:none; cursor:pointer;">Claim</button>
-            </div>
         </div>
     </div>
 
-    <!-- TAB 4: FRIENDS (REAL PAGE, NO ALERTS) -->
+    <!-- FRIENDS TAB -->
     <div id="tab-friends" class="app-container">
         <div class="card">
-            <h3>Invite Friends & Earn</h3>
-            <p style="font-size: 11px; color: #aaa; margin-bottom: 12px;">Get 20% commission on your friends' earnings instantly!</p>
-            <div class="balance-display" style="margin-bottom: 15px;">
-                <p style="font-size: 10px; color: #888;">TOTAL REFERRED FRIENDS</p>
-                <h3 style="color: #ffcc00; font-size: 20px; margin-top: 3px;">14 Users</h3>
-            </div>
-            <button class="btn-gold" onclick="copyRefLink()">Copy Referral Link</button>
+            <h3>Referral Network</h3>
+            <p style="font-size: 11px; color: #aaa; margin-bottom: 10px;">Earn 20% commission from your referrals!</p>
+            <button class="btn-gold" onclick="alert('Invite link copied!')">Copy Invite Link</button>
         </div>
     </div>
 
-    <!-- TAB 5: PROFILE (REAL PAGE, NO ALERTS) -->
+    <!-- PROFILE & NFT MARKETPLACE TAB -->
     <div id="tab-profile" class="app-container">
         <div class="balance-display">
-            <p style="font-size: 11px; color: #888;">CONNECTED WALLET</p>
-            <h4 style="font-size: 12px; color: #ffcc00; margin-top:5px;">EQD4...SpiderWallet99</h4>
+            <p style="font-size: 11px; color: #888;">CONNECTED WALLET (TON)</p>
+            <h4 style="font-size: 12px; color: #ffcc00; margin-top:5px;">EQD4...Connected</h4>
         </div>
         <div class="card">
-            <h3>Account Settings</h3>
-            <p style="font-size: 11px; color: #ccc; margin-bottom: 8px;">Rank: Elite Master</p>
-            <p style="font-size: 11px; color: #ccc; margin-bottom: 12px;">Security: Telegram Verified ✓</p>
-            <button class="btn-gold" onclick="withdrawTokens()">Withdraw Tokens</button>
+            <h3>NFT Marketplace & Hub</h3>
+            <div class="nft-grid">
+                <div class="nft-card">
+                    <div style="font-size: 28px;">🕷️</div>
+                    <h4 style="color:#d4af37; font-size:11px; margin:4px 0;">Golden Web #102</h4>
+                    <p style="font-size:9px; color:#aaa;">Price: 5 TON</p>
+                    <button class="vip-badge" style="border:none; margin-top:6px; cursor:pointer;" onclick="sellNFT('Golden Web #102')">Sell NFT</button>
+                </div>
+                <div class="nft-card">
+                    <div style="font-size: 28px;">🕸️</div>
+                    <h4 style="color:#d4af37; font-size:11px; margin:4px 0;">Legendary Armor</h4>
+                    <p style="font-size:9px; color:#aaa;">Price: 12 TON</p>
+                    <button class="vip-badge" style="border:none; margin-top:6px; cursor:pointer;" onclick="sellNFT('Legendary Armor')">Sell NFT</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- 1. SPIDER WEB JUMP MODAL -->
-    <div id="limitModal" class="modal-overlay">
+    <!-- SPIDER WEB JUMP MODAL -->
+    <div id="webJumpModal" class="modal-overlay">
         <div class="game-top-bar">
             <div>
-                <h3 id="spider-coins" style="color: #ffcc00; font-size: 14px;">6200</h3>
+                <h3 id="spider-coins" style="color: #ffcc00; font-size: 14px;">4200</h3>
                 <p style="font-size: 8px; color: #aaa;">Spider Coins</p>
             </div>
             <div style="text-align: center;">
                 <h3 style="color: #d4af37; font-size: 11px;">Spider Web Jump</h3>
-                <p style="font-size: 8px; color: #ff4444;" id="popup-limit-info">Jumps Left: 5</p>
+                <p style="font-size: 8px; color: #888;">mini App</p>
             </div>
             <div style="text-align: right;">
-                <h3 id="token-coins" style="color: #ffcc00; font-size: 14px;">510</h3>
+                <h3 id="token-coins" style="color: #ffcc00; font-size: 14px;">420</h3>
                 <p style="font-size: 8px; color: #aaa;">Token Coins</p>
             </div>
         </div>
@@ -169,21 +128,21 @@
         <canvas id="webCanvas"></canvas>
 
         <div class="controls-row">
-            <div class="ctrl-btn" onclick="jumpWithLimit()">🕷️ Jump</div>
-            <div class="ctrl-btn" onclick="moveSpider(-35)">◄ Left</div>
-            <div class="ctrl-btn" onclick="moveSpider(35)">Right ►</div>
+            <div class="ctrl-btn" onclick="jumpAction()">🕷️ Jump</div>
+            <div class="ctrl-btn" onclick="moveAction(-30)">◄ Move Left</div>
+            <div class="ctrl-btn" onclick="moveAction(30)">Move Right ►</div>
         </div>
 
-        <button class="btn-gold" onclick="closeLimitGame()">CLAIM & EXIT</button>
+        <button class="btn-gold" onclick="closeWebJump()">CLAIM & EXIT</button>
     </div>
 
-    <!-- 2. PVP ARENA (TIC-TAC-TOE) MODAL -->
+    <!-- PVP TIC-TAC-TOE ARENA MODAL -->
     <div id="pvpModal" class="modal-overlay" style="align-items: center; justify-content: center;">
         <div style="background:#0d0d0d; border:2px solid #d4af37; padding:15px; border-radius:12px; width:90%; max-width:320px; text-align:center;">
-            <h3 style="color:#d4af37; margin-bottom:5px;">PvP Tic-Tac-Toe Arena</h3>
-            <p style="font-size:10px; color:#aaa;" id="ttt-status">Your turn (X)</p>
+            <h3 style="color:#d4af37; margin-bottom:5px;">Tic-Tac-Toe Arena</h3>
+            <p style="font-size:10px; color:#aaa;" id="ttt-status">User vs Opponent</p>
             
-            <div class="ttt-board" id="tttGrid">
+            <div class="ttt-board">
                 <div class="ttt-cell" onclick="makeMove(0)"></div>
                 <div class="ttt-cell" onclick="makeMove(1)"></div>
                 <div class="ttt-cell" onclick="makeMove(2)"></div>
@@ -194,23 +153,23 @@
                 <div class="ttt-cell" onclick="makeMove(7)"></div>
                 <div class="ttt-cell" onclick="makeMove(8)"></div>
             </div>
-
+            <p style="font-size: 11px; color: #ffcc00; margin-bottom:10px;">Spider Tokens Won: <span id="tokens-won">150</span></p>
             <button class="btn-gold" onclick="document.getElementById('pvpModal').style.display='none'">CLOSE ARENA</button>
         </div>
     </div>
 
-    <!-- 3. FORTUNE WHEEL MODAL -->
+    <!-- FORTUNE WHEEL MODAL -->
     <div id="wheelModal" class="modal-overlay" style="align-items: center; justify-content: center;">
         <div style="background:#0d0d0d; border:2px solid #d4af37; padding:20px; border-radius:12px; width:90%; max-width:320px; text-align:center;">
             <h3 style="color:#d4af37; margin-bottom:10px;">Spider Fortune Wheel</h3>
-            <div style="font-size:50px; margin:15px 0;" id="wheel-display">🎡</div>
-            <h4 id="wheel-result" style="color:#ffcc00; font-size:14px; margin-bottom:15px;">Daily Spins Left: 2</h4>
-            <button class="btn-gold" onclick="spinWheel()" style="margin-bottom:8px;">SPIN NOW</button>
+            <div style="font-size:55px; margin:15px 0;">🎡</div>
+            <h4 id="wheel-text" style="color:#ffcc00; font-size:13px; margin-bottom:15px;">Daily Spins Left: 2</h4>
+            <button class="btn-gold" onclick="spinWheelAction()" style="margin-bottom:8px;">SPIN NOW</button>
             <button class="ctrl-btn" style="width:100%; padding:10px;" onclick="document.getElementById('wheelModal').style.display='none'">EXIT</button>
         </div>
     </div>
 
-    <!-- NAVIGATION BAR -->
+    <!-- NAVBAR -->
     <nav>
         <div class="nav-item active" onclick="switchTab('home', this)">🏠 Home</div>
         <div class="nav-item" onclick="switchTab('games', this)">🎮 Games</div>
@@ -219,245 +178,8 @@
         <div class="nav-item" onclick="switchTab('profile', this)">👛 Profile</div>
     </nav>
 
-    <script>
-        let balance = 26585.75;
-        let dailyLimit = 5;
-
-        function updateBalance() {
-            document.getElementById('main-balance').innerText = balance.toFixed(2) + " $SPDR";
-            document.getElementById('limit-text').innerText = `Limits: ${dailyLimit}/5`;
-        }
-
-        // --- NAVIGATION TABS SWITCHER (FIXED) ---
-        function switchTab(tabName, element) {
-            document.querySelectorAll('.app-container').forEach(el => el.classList.remove('active-tab'));
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            
-            document.getElementById('tab-' + tabName).classList.add('active-tab');
-            element.classList.add('active');
-            
-            let titles = {home: "SPIDER GENESIS", games: "GAME REALMS", tasks: "DAILY TASKS", friends: "REFERRALS", profile: "USER PROFILE"};
-            document.getElementById('header-title').innerText = titles[tabName];
-        }
-
-        // --- TASKS CLAIM ---
-        function completeTask(reward, btn) {
-            balance += reward;
-            updateBalance();
-            btn.innerText = "Claimed ✓";
-            btn.style.background = "#333";
-            btn.style.color = "#777";
-            btn.disabled = true;
-        }
-
-        function copyRefLink() {
-            navigator.clipboard.writeText("https://t.me/SpiderGenesisBot?start=ref123");
-            alert("Referral Link Copied to Clipboard!");
-        }
-
-        function withdrawTokens() {
-            alert("Withdrawal request submitted successfully! Tokens will arrive soon.");
-        }
-
-        // --- SPIDER WEB JUMP GAME ---
-        let canvas, ctx, animId;
-        let sX, sY, sVelY, webs, spiderCoins, tokenCoins;
-
-        function openLimitGame() {
-            if (dailyLimit <= 0) {
-                if(confirm("⚠️ Limit Over (0/5)! Reset limits for testing?")) {
-                    dailyLimit = 5;
-                } else {
-                    return;
-                }
-            }
-
-            document.getElementById('limitModal').style.display = 'flex';
-            canvas = document.getElementById('webCanvas');
-            canvas.width = window.innerWidth - 30;
-            canvas.height = window.innerHeight - 250;
-            ctx = canvas.getContext('2d');
-
-            sX = canvas.width / 2;
-            sY = canvas.height - 60;
-            sVelY = 0;
-            spiderCoins = 6200;
-            tokenCoins = 510;
-
-            webs = [
-                {x: canvas.width * 0.35, y: canvas.height * 0.6, r: 38, coinVal: +500, type: 'win'},
-                {x: canvas.width * 0.7, y: canvas.height * 0.4, r: 42, coinVal: +1000, type: 'win'},
-                {x: canvas.width * 0.55, y: canvas.height * 0.2, r: 35, coinVal: +200, type: 'win'},
-                {x: canvas.width * 0.4, y: canvas.height * 0.35, r: 30, coinVal: -300, type: 'loss'}
-            ];
-
-            if(animId) cancelAnimationFrame(animId);
-            gameLoop();
-        }
-
-        function jumpWithLimit() {
-            if (dailyLimit <= 0) return;
-            dailyLimit--;
-            document.getElementById('popup-limit-info').innerText = `Jumps Left: ${dailyLimit}`;
-            document.getElementById('limit-text').innerText = `Limits: ${dailyLimit}/5`;
-            sVelY = -9.5;
-        }
-
-        function moveSpider(val) {
-            sX += val;
-            if(sX < 30) sX = 30;
-            if(sX > canvas.width - 30) sX = canvas.width - 30;
-        }
-
-        function gameLoop() {
-            sVelY += 0.35;
-            sY += sVelY;
-            if(sY > canvas.height - 30) { sY = canvas.height - 30; sVelY = 0; }
-            if(sY < 30) sY = 30;
-
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            ctx.strokeStyle = 'rgba(212, 175, 55, 0.25)';
-            ctx.lineWidth = 1;
-            for(let i=0; i<webs.length; i++) {
-                for(let j=i+1; j<webs.length; j++) {
-                    ctx.beginPath(); ctx.moveTo(webs[i].x, webs[i].y); ctx.lineTo(webs[j].x, webs[j].y); ctx.stroke();
-                }
-            }
-
-            for(let w of webs) {
-                ctx.save();
-                ctx.beginPath();
-                ctx.arc(w.x, w.y, w.r, 0, Math.PI * 2);
-                ctx.strokeStyle = w.type === 'win' ? '#d4af37' : '#ff4444';
-                ctx.lineWidth = 2; ctx.stroke();
-                ctx.fillStyle = '#0a0a0a'; ctx.fill();
-
-                ctx.fillStyle = w.type === 'win' ? '#ffcc00' : '#ff4444';
-                ctx.font = 'bold 12px Arial'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-                ctx.fillText((w.coinVal > 0 ? "+" : "") + w.coinVal, w.x, w.y);
-                ctx.restore();
-
-                let dx = sX - w.x; let dy = sY - w.y;
-                if(Math.sqrt(dx*dx + dy*dy) < w.r + 15) {
-                    spiderCoins += w.coinVal;
-                    if(spiderCoins < 0) spiderCoins = 0;
-                    if(w.type === 'win') tokenCoins += 10;
-                    document.getElementById('spider-coins').innerText = spiderCoins;
-                    document.getElementById('token-coins').innerText = tokenCoins;
-
-                    w.x = Math.random() * (canvas.width - 80) + 40;
-                    w.y = Math.random() * (canvas.height - 120) + 40;
-                }
-            }
-
-            ctx.strokeStyle = 'rgba(255, 204, 0, 0.4)';
-            ctx.beginPath(); ctx.moveTo(sX, sY); ctx.lineTo(sX, sY - 45); ctx.stroke();
-
-            ctx.font = '28px Arial'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-            ctx.fillText("🕷️", sX, sY);
-
-            animId = requestAnimationFrame(gameLoop);
-        }
-
-        function closeLimitGame() {
-            cancelAnimationFrame(animId);
-            let earned = spiderCoins - 6200;
-            if(earned !== 0) {
-                balance += earned;
-                updateBalance();
-                alert(`Session Saved! Main balance updated by ${earned > 0 ? '+' : ''}${earned} coins.`);
-            }
-            document.getElementById('limitModal').style.display = 'none';
-        }
-
-        // --- PVP ARENA (TIC-TAC-TOE) LOGIC ---
-        let tttBoard = ['', '', '', '', '', '', '', '', ''];
-        let isPlayerTurn = true;
-
-        function openPvPArena() {
-            document.getElementById('pvpModal').style.display = 'flex';
-            resetTTT();
-        }
-
-        function makeMove(index) {
-            if (tttBoard[index] === '' && isPlayerTurn) {
-                tttBoard[index] = 'X';
-                renderTTT();
-                checkWinner();
-                if (isPlayerTurn) {
-                    isPlayerTurn = false;
-                    document.getElementById('ttt-status').innerText = "Bot is thinking...";
-                    setTimeout(botMove, 600);
-                }
-            }
-        }
-
-        function botMove() {
-            let emptyCells = tttBoard.map((val, idx) => val === '' ? idx : null).filter(val => val !== null);
-            if (emptyCells.length > 0) {
-                let randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-                tttBoard[randomCell] = 'O';
-                renderTTT();
-                checkWinner();
-            }
-            isPlayerTurn = true;
-            document.getElementById('ttt-status').innerText = "Your turn (X)";
-        }
-
-        function renderTTT() {
-            let cells = document.querySelectorAll('.ttt-cell');
-            cells.forEach((cell, idx) => {
-                cell.innerText = tttBoard[idx];
-                cell.style.color = tttBoard[idx] === 'X' ? '#ffcc00' : '#ff4444';
-            });
-        }
-
-        function checkWinner() {
-            const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-            let winFound = false;
-            wins.forEach(combo => {
-                let [a,b,c] = combo;
-                if (tttBoard[a] && tttBoard[a] === tttBoard[b] && tttBoard[a] === tttBoard[c]) {
-                    winFound = true;
-                    alert(`Player ${tttBoard[a]} Won the Match! +150 Tokens Added.`);
-                    balance += 150;
-                    updateBalance();
-                    resetTTT();
-                }
-            });
-            if (!winFound && !tttBoard.includes('')) {
-                alert("It's a Draw!");
-                resetTTT();
-            }
-        }
-
-        function resetTTT() {
-            tttBoard = ['', '', '', '', '', '', '', '', ''];
-            isPlayerTurn = true;
-            renderTTT();
-        }
-
-        // --- FORTUNE WHEEL LOGIC ---
-        let spinsLeft = 2;
-        function openFortuneWheel() {
-            document.getElementById('wheelModal').style.display = 'flex';
-            document.getElementById('wheel-result').innerText = `Daily Spins Left: ${spinsLeft}`;
-        }
-
-        function spinWheel() {
-            if (spinsLeft <= 0) {
-                alert("No spins left for today!");
-                return;
-            }
-            spinsLeft--;
-            let rewards = [500, 1000, 2000, 250, 5000];
-            let won = rewards[Math.floor(Math.random() * rewards.length)];
-            balance += won;
-            updateBalance();
-            document.getElementById('wheel-result').innerText = `Won +${won} $SPDR! (Spins Left: ${spinsLeft})`;
-            alert(`🎉 Congratulations! You won ${won} Spider Coins from the Wheel!`);
-        }
-    </script>
+    <script src="app.js"></script>
+    <script src="game.js"></script>
+    <script src="minigames.js"></script>
 </body>
 </html>
