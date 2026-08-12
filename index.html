@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Spider Genesis - Real WebApp</title>
+    <title>Spider Genesis - Fixed WebApp</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #030303; color: #f3f3f3; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
         
         header { background: #080808; padding: 10px 15px; border-bottom: 2px solid #d4af37; display: flex; justify-content: space-between; align-items: center; }
-        header h1 { color: #d4af37; font-size: 15px; letter-spacing: 1px; font-weight: 800; }
+        header h1 { color: #d4af37; font-size: 15px; font-weight: 800; }
         .vip-badge { background: #d4af37; color: #000; font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: bold; }
 
         .app-container { flex: 1; overflow-y: auto; padding: 12px; padding-bottom: 75px; }
-
         .card { background: #0d0d0d; border: 1px solid #d4af3744; border-radius: 12px; padding: 12px; margin-bottom: 12px; }
         .card h3 { color: #d4af37; font-size: 12px; margin-bottom: 8px; text-transform: uppercase; }
 
@@ -22,17 +21,15 @@
         .balance-display h2 { color: #ffcc00; font-size: 26px; font-weight: 900; margin-top: 4px; }
 
         .tap-box { text-align: center; padding: 15px; background: #0a0a0a; border: 1px solid #222; border-radius: 12px; margin-bottom: 12px; }
-        .spider-btn { width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle, #222, #000); border: 3px solid #d4af37; margin: 10px auto; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(212,175,55,0.4); cursor: pointer; }
-        .spider-btn:active { transform: scale(0.92); }
+        .spider-btn { width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle, #222, #000); border: 3px solid #d4af37; margin: 10px auto; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
         .game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
         .game-card { background: #090909; border: 1px solid #d4af3755; border-radius: 10px; padding: 8px; text-align: center; cursor: pointer; }
         .game-card h4 { color: #d4af37; font-size: 11px; margin-top: 4px; }
         .game-icon { width: 100%; height: 55px; background: #000; border: 1px solid #222; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
 
-        /* Full Screen Interactive Game Screen (No boring alerts!) */
         .game-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050505; z-index: 500; padding: 15px; text-align: center; flex-direction: column; justify-content: space-between; }
-        canvas { background: #0b0b0b; border: 2px solid #d4af37; border-radius: 8px; margin: auto; display: block; box-shadow: 0 0 20px rgba(212,175,55,0.2); }
+        canvas { background: #0b0b0b; border: 2px solid #d4af37; border-radius: 8px; margin: auto; display: block; }
 
         .btn-gold { background: linear-gradient(135deg, #d4af37, #9a7805); color: #000; border: none; padding: 10px; font-weight: 800; border-radius: 8px; cursor: pointer; width: 100%; font-size: 12px; text-transform: uppercase; }
 
@@ -65,7 +62,7 @@
         <div class="card">
             <h3>Internal Game Realms</h3>
             <div class="game-grid">
-                <div class="game-card" onclick="alert('Open Tic-Tac-Toe from Games tab')">
+                <div class="game-card" onclick="alert('Tic-Tac-Toe Arena Active')">
                     <div class="game-icon">❌⭕</div>
                     <h4>PvP Arena</h4>
                 </div>
@@ -73,7 +70,7 @@
                     <div class="game-icon">🕸️⚡</div>
                     <h4>Web Jump</h4>
                 </div>
-                <div class="game-card" onclick="alert('Spin Wheel Active')">
+                <div class="game-card" onclick="alert('Fortune Wheel Active')">
                     <div class="game-icon">🎡</div>
                     <h4>Fortune Wheel</h4>
                 </div>
@@ -81,17 +78,16 @@
         </div>
     </div>
 
-    <!-- REAL HTML5 CANVAS GAME SCREEN (Replaces fake alerts) -->
     <div id="webjump-screen" class="game-screen">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h2 style="color: #d4af37; font-size: 16px;">Spider Web Jump (Live Game)</h2>
+            <h2 style="color: #d4af37; font-size: 16px;">Spider Web Jump</h2>
             <button onclick="closeGameScreen()" style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;">✕</button>
         </div>
         <div>
-            <p style="font-size: 12px; color: #aaa; margin-bottom: 5px;">Tap screen to jump across webs & collect coins!</p>
-            <canvas id="gameCanvas" width="320" height="380" onclick="playerJump()"></canvas>
+            <p style="font-size: 12px; color: #aaa; margin-bottom: 5px;">Tap screen continuously to fly & collect score!</p>
+            <canvas id="gameCanvas" width="320" height="360" onclick="playerJump()"></canvas>
         </div>
-        <button class="btn-gold" onclick="closeGameScreen()">End & Claim Score</button>
+        <button class="btn-gold" onclick="closeGameScreen()">Claim & Exit</button>
     </div>
 
     <nav>
@@ -119,7 +115,6 @@
             }
         }
 
-        // --- REAL HTML5 CANVAS WEB JUMP GAME ---
         let canvas, ctx;
         let gameInterval;
         let spiderY, velocity, gravity, webX, webY, gameScore;
@@ -129,11 +124,11 @@
             canvas = document.getElementById('gameCanvas');
             ctx = canvas.getContext('2d');
             
-            spiderY = 200;
-            velocity = 0;
-            gravity = 0.6;
+            spiderY = 180;
+            velocity = -2;
+            gravity = 0.35; // Halki gravity taaki turant na gire
             webX = 320;
-            webY = Math.random() * 200 + 100;
+            webY = Math.random() * 180 + 90;
             gameScore = 0;
 
             if (gameInterval) clearInterval(gameInterval);
@@ -141,54 +136,53 @@
         }
 
         function playerJump() {
-            velocity = -9;
+            velocity = -7; // Tap karne par upar jump karega
         }
 
         function updateGameLoop() {
             velocity += gravity;
             spiderY += velocity;
 
-            webX -= 3;
+            webX -= 2.5;
             if (webX < -40) {
                 webX = 320;
-                webY = Math.random() * 220 + 80;
-                gameScore += 50; // earned per web cleared
+                webY = Math.random() * 180 + 90;
+                gameScore += 25; 
             }
 
-            // Clear Canvas
             ctx.fillStyle = '#0b0b0b';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Draw Web Obstacle
+            // Web Obstacle
             ctx.strokeStyle = '#d4af37';
             ctx.lineWidth = 2;
             ctx.beginPath();
-            ctx.arc(webX, webY, 30, 0, Math.PI * 2);
+            ctx.arc(webX, webY, 25, 0, Math.PI * 2);
             ctx.stroke();
             ctx.fillStyle = '#ffcc00';
             ctx.font = '12px Arial';
             ctx.fillText("🕸️", webX - 8, webY + 4);
 
-            // Draw Spider Player
+            // Spider Player
             ctx.font = '24px Arial';
             ctx.fillText("🕷️", 60, spiderY);
 
-            // Draw Score inside game
+            // Score Display
             ctx.fillStyle = '#fff';
             ctx.font = '14px Arial';
             ctx.fillText("Score: " + gameScore, 15, 25);
 
-            // Ground/Roof collision
-            if (spiderY > 370 || spiderY < 20) {
-                gameOver();
+            // Collision check (Floor/Roof)
+            if (spiderY > 350 || spiderY < 10) {
+                endGame();
             }
         }
 
-        function gameOver() {
+        function endGame() {
             clearInterval(gameInterval);
             balance += gameScore;
             updateBalance();
-            alert("Game Over! Total score added to balance: +" + gameScore + " $SPDR");
+            alert("Score added to balance: +" + gameScore + " $SPDR");
             closeGameScreen();
         }
 
