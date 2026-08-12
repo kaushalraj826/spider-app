@@ -27,6 +27,11 @@
 
         .main-tap-circle { width: 160px; height: 160px; border-radius: 50%; background: radial-gradient(circle, #222, #000); border: 3px solid #d4af37; margin: 20px auto; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(212,175,55,0.4); cursor: pointer; }
         
+        /* Game Modal / Screens */
+        .game-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 200; padding: 20px; text-align: center; }
+        .tic-tac-grid { display: grid; grid-template-columns: repeat(3, 80px); gap: 5px; justify-content: center; margin: 20px auto; }
+        .cell { width: 80px; height: 80px; background: #1a1a1a; border: 1px solid #d4af37; font-size: 32px; display: flex; align-items: center; justify-content: center; color: #d4af37; cursor: pointer; }
+
         nav { display: flex; background: #0d0d0d; border-top: 1px solid #222; position: fixed; bottom: 0; width: 100%; height: 60px; z-index: 100; }
         .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #777; font-size: 10px; cursor: pointer; }
         .nav-item.active { color: #d4af37; font-weight: bold; }
@@ -64,9 +69,9 @@
         <div class="section-card">
             <h3>Internal Game Realms</h3>
             <div class="grid-3">
-                <div class="mini-btn" onclick="openGame('Tic-Tac-Toe Arena')">Tic-Tac-Toe</div>
-                <div class="mini-btn" onclick="openGame('Spider Web Jump')">Web Jump</div>
-                <div class="mini-btn" onclick="openGame('Fortune Wheel')">Fortune Wheel</div>
+                <div class="mini-btn" onclick="openTicTacToe()">Tic-Tac-Toe</div>
+                <div class="mini-btn" onclick="openWebJump()">Web Jump</div>
+                <div class="mini-btn" onclick="openFortuneWheel()">Fortune Wheel</div>
             </div>
         </div>
     </div>
@@ -98,6 +103,24 @@
         </div>
     </div>
 
+    <!-- TIC-TAC-TOE GAME MODAL -->
+    <div id="tictactoe-modal" class="game-modal">
+        <h2 style="color: #d4af37; margin-bottom: 10px;">Tic-Tac-Toe Arena</h2>
+        <p style="font-size: 12px; color: #aaa; margin-bottom: 15px;">Win to claim +150 $SPDR tokens</p>
+        <div class="tic-tac-grid" id="board">
+            <div class="cell" onclick="makeMove(0)"></div>
+            <div class="cell" onclick="makeMove(1)"></div>
+            <div class="cell" onclick="makeMove(2)"></div>
+            <div class="cell" onclick="makeMove(3)"></div>
+            <div class="cell" onclick="makeMove(4)"></div>
+            <div class="cell" onclick="makeMove(5)"></div>
+            <div class="cell" onclick="makeMove(6)"></div>
+            <div class="cell" onclick="makeMove(7)"></div>
+            <div class="cell" onclick="makeMove(8)"></div>
+        </div>
+        <button class="mini-btn" style="padding: 10px 20px; margin-top: 20px;" onclick="closeModal('tictactoe-modal')">Close Game</button>
+    </div>
+
     <!-- NAVIGATION BAR -->
     <nav>
         <div class="nav-item active" onclick="switchTab('home', this)">🏠 Home</div>
@@ -120,24 +143,44 @@
             }
         }
 
-        function openGame(gameName) {
-            alert("Launching " + gameName + " Arena...");
-        }
-
-        function copyReferral() {
-            const tg = window.Telegram.WebApp;
-            const user = tg.initDataUnsafe?.user;
-            const refLink = `https://t.me/SpiderCoinWalletBot?start=ref_${user ? user.id : '12345'}`;
-            navigator.clipboard.writeText(refLink);
-            alert("Referral link copied: " + refLink);
-        }
-
         function switchTab(tabId, element) {
             document.querySelectorAll('.container').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             document.getElementById('tab-' + tabId).classList.add('active');
             element.classList.add('active');
         }
-    </script>
+
+        function openTicTacToe() {
+            document.getElementById('tictactoe-modal').style.display = 'block';
+        }
+        function openWebJump() {
+            score += 420;
+            document.getElementById('balance-display').innerText = score.toFixed(2) + " $SPDR";
+            alert("Spider Web Jump Completed! +420 $SPDR added.");
+        }
+        function openFortuneWheel() {
+            score += 1000;
+            document.getElementById('balance-display').innerText = score.toFixed(2) + " $SPDR";
+            alert("Fortune Wheel Spun! You won 1,000 Mystery Coins!");
+        }
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        let board = ['', '', '', '', '', '', '', '', ''];
+        function makeMove(index) {
+            if(board[index] === '') {
+                board[index] = '🕷️';
+                document.getElementsByClassName('cell')[index].innerText = '🕷️';
+                setTimeout(() => {
+                    score += 50;
+                    document.getElementById('balance-display').innerText = score.toFixed(2) + " $SPDR";
+                    alert("You won this round! +50 $SPDR tokens added.");
+                    closeModal('tictactoe-modal');
+                }, 300);
+            }
+        }
+
+    script>
 </body>
 </html>
