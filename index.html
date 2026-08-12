@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Spider Genesis - Web Jump</title>
+    <title>Spider Genesis - Web Jump Elite</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; user-select: none; }
@@ -26,19 +26,19 @@
         .game-card h4 { color: #d4af37; font-size: 11px; margin-top: 4px; }
         .game-icon { width: 100%; height: 55px; background: #000; border: 1px solid #222; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
 
-        /* EXACT MATCH WEB JUMP SCREEN */
-        .webjump-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050505; z-index: 700; flex-direction: column; justify-content: space-between; padding: 15px; }
+        /* EXACT MATCH WEB JUMP GAME SCREEN */
+        .webjump-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050505; z-index: 700; flex-direction: column; justify-content: space-between; padding: 12px; }
         
-        .game-top-bar { display: flex; justify-content: space-between; align-items: center; background: #111; padding: 8px 12px; border: 1px solid #d4af3755; border-radius: 8px; }
+        .game-top-bar { display: flex; justify-content: space-between; align-items: center; background: #0e0e0e; padding: 8px 12px; border: 1px solid #d4af3755; border-radius: 8px; }
         
-        #webCanvas { width: 100%; flex: 1; background: radial-gradient(circle, #151515, #020202); border: 2px solid #d4af37; border-radius: 10px; margin: 10px 0; box-shadow: 0 0 25px rgba(212,175,55,0.3); display: block; }
+        #webCanvas { width: 100%; flex: 1; background: radial-gradient(circle, #121212, #020202); border: 2px solid #d4af37; border-radius: 10px; margin: 8px 0; box-shadow: 0 0 25px rgba(212,175,55,0.3); display: block; }
 
-        /* Control Buttons matching your blueprint */
-        .controls-row { display: flex; gap: 10px; margin-bottom: 10px; }
-        .ctrl-btn { flex: 1; background: linear-gradient(145deg, #1a1a1a, #111); border: 1px solid #d4af37; color: #ffcc00; padding: 14px; font-weight: bold; border-radius: 8px; text-align: center; cursor: pointer; font-size: 13px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        /* Exact Layout Controls matching your uploaded screenshot */
+        .controls-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+        .ctrl-btn { background: linear-gradient(145deg, #181818, #0f0f0f); border: 1px solid #d4af37; color: #ffcc00; padding: 12px 5px; font-weight: bold; border-radius: 10px; text-align: center; cursor: pointer; font-size: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
         .ctrl-btn:active { background: #d4af37; color: #000; transform: scale(0.96); }
 
-        .btn-gold { background: linear-gradient(135deg, #d4af37, #9a7805); color: #000; border: none; padding: 12px; font-weight: 900; border-radius: 8px; cursor: pointer; width: 100%; font-size: 13px; text-transform: uppercase; box-shadow: 0 4px 15px rgba(212,175,55,0.4); }
+        .btn-gold { background: linear-gradient(135deg, #d4af37, #9a7805); color: #000; border: none; padding: 14px; font-weight: 900; border-radius: 10px; cursor: pointer; width: 100%; font-size: 13px; text-transform: uppercase; box-shadow: 0 4px 15px rgba(212,175,55,0.4); }
 
         nav { display: flex; background: #0a0a0a; border-top: 1px solid #222; position: fixed; bottom: 0; width: 100%; height: 60px; z-index: 200; }
         .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #777; font-size: 10px; cursor: pointer; }
@@ -77,25 +77,25 @@
         </div>
     </div>
 
-    <!-- EXACT BLUEPRINT WEB JUMP GAME SCREEN -->
+    <!-- EXACT MATCH WEB JUMP SCREEN FROM YOUR SCREENSHOT -->
     <div id="webjumpModal" class="webjump-overlay">
         <div class="game-top-bar">
             <div>
-                <p style="font-size: 10px; color: #aaa;">Spider Coins</p>
-                <h3 id="live-game-coins" style="color: #ffcc00; font-size: 16px;">4200</h3>
+                <p style="font-size: 9px; color: #aaa;">Spider Coins</p>
+                <h3 id="live-game-coins" style="color: #ffcc00; font-size: 16px;">8065</h3>
             </div>
-            <h3 style="color: #d4af37; font-size: 14px;">Spider Web Jump</h3>
+            <h3 style="color: #d4af37; font-size: 13px;">Spider Web Jump</h3>
             <button onclick="closeWebJumpGame()" style="background:none; border:none; color:#ffcc00; font-size:20px; cursor:pointer;">✕</button>
         </div>
 
-        <!-- Canvas where Spider & Golden Webs move -->
+        <!-- Canvas with Multiplier Webs -->
         <canvas id="webCanvas"></canvas>
 
-        <!-- EXACT CONTROLS FROM BLUEPRINT SCREENSHOT -->
+        <!-- EXACT BUTTONS FROM YOUR SCREENSHOT -->
         <div class="controls-row">
             <div class="ctrl-btn" onclick="spiderJumpAction()">🕷️ Jump</div>
-            <div class="ctrl-btn" onclick="spiderMove(-25)">◀ Move Left</div>
-            <div class="ctrl-btn" onclick="spiderMove(25)">Move Right ▶</div>
+            <div class="ctrl-btn" onclick="spiderMove(-30)">◄ Move Left</div>
+            <div class="ctrl-btn" onclick="spiderMove(30)">Move Right ►</div>
         </div>
 
         <button class="btn-gold" onclick="closeWebJumpGame()">CLAIM & EXIT</button>
@@ -115,7 +115,7 @@
             document.getElementById('main-balance').innerText = balance.toFixed(2) + " $SPDR";
         }
 
-        // --- WEB JUMP GAME ENGINE MATCHING BLUEPRINT ---
+        // --- WEB JUMP GAME ENGINE ---
         let canvas, ctx, animId;
         let spiderX, spiderY, spiderVelY, websList, gameScore;
 
@@ -123,22 +123,23 @@
             document.getElementById('webjumpModal').style.display = 'flex';
             canvas = document.getElementById('webCanvas');
             canvas.width = window.innerWidth - 30;
-            canvas.height = window.innerHeight - 240;
+            canvas.height = window.innerHeight - 250;
             ctx = canvas.getContext('2d');
 
-            spiderX = canvas.width / 2;
-            spiderY = canvas.height - 80;
+            spiderX = canvas.width - 50;
+            spiderY = canvas.height - 50;
             spiderVelY = 0;
-            gameScore = 4200; // Starting score as in screenshot
+            gameScore = 8065; // Matches your screenshot starting score
 
-            // Generate floating golden webs
+            // Generate multiplier webs (+1.9x, +3.0x, etc.)
             websList = [];
-            for(let i=0; i<5; i++) {
+            let multipliers = [1.5, 1.9, 2.3, 2.9, 3.0];
+            for(let i=0; i<6; i++) {
                 websList.push({
-                    x: Math.random() * (canvas.width - 60) + 30,
-                    y: Math.random() * (canvas.height - 100) + 30,
-                    radius: 25,
-                    multiplier: (Math.random() * 2 + 1).toFixed(1)
+                    x: Math.random() * (canvas.width - 80) + 40,
+                    y: Math.random() * (canvas.height - 120) + 40,
+                    radius: 30,
+                    mult: multipliers[Math.floor(Math.random() * multipliers.length)]
                 });
             }
 
@@ -147,59 +148,61 @@
         }
 
         function spiderJumpAction() {
-            spiderVelY = -10; // Jump up
+            spiderVelY = -9;
         }
 
         function spiderMove(val) {
             spiderX += val;
-            if(spiderX < 20) spiderX = 20;
-            if(spiderX > canvas.width - 20) spiderX = canvas.width - 20;
+            if(spiderX < 30) spiderX = 30;
+            if(spiderX > canvas.width - 30) spiderX = canvas.width - 30;
         }
 
         function runWebJumpLoop() {
-            // Gravity physics
-            spiderVelY += 0.4;
+            spiderVelY += 0.35; // Gravity
             spiderY += spiderVelY;
 
-            // Floor & ceiling limits
             if(spiderY > canvas.height - 30) {
                 spiderY = canvas.height - 30;
                 spiderVelY = 0;
             }
             if(spiderY < 30) spiderY = 30;
 
-            // Clear canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Draw glowing background web particles
-            ctx.strokeStyle = '#d4af3733';
-            ctx.lineWidth = 1;
+            // Draw glowing multiplier webs
             for(let w of websList) {
+                ctx.save();
                 ctx.beginPath();
                 ctx.arc(w.x, w.y, w.radius, 0, Math.PI * 2);
+                ctx.strokeStyle = '#d4af37';
+                ctx.lineWidth = 1.5;
                 ctx.stroke();
+                ctx.fillStyle = '#111';
+                ctx.fill();
 
-                // Draw golden web icon & multiplier
+                // Web icon & multiplier text (+1.9x, +3.0x)
                 ctx.fillStyle = '#ffcc00';
-                ctx.font = '14px Arial';
+                ctx.font = '13px Arial';
                 ctx.textAlign = 'center';
-                ctx.fillText("🕸️", w.x, w.y - 2);
-                ctx.font = '10px Arial';
-                ctx.fillText("+" + w.multiplier + "x", w.x, w.y + 16);
+                ctx.fillText("🕸️", w.x, w.y - 4);
+                ctx.font = 'bold 11px Arial';
+                ctx.fillText("+" + w.mult + "x", w.x, w.y + 14);
+                ctx.restore();
 
-                // Collision with spider to collect points
+                // Collision detection with spider
                 let dx = spiderX - w.x;
                 let dy = spiderY - w.y;
-                if(Math.sqrt(dx*dx + dy*dy) < 30) {
-                    gameScore += Math.floor(w.multiplier * 50);
+                if(Math.sqrt(dx*dx + dy*dy) < 35) {
+                    gameScore += Math.floor(w.mult * 40);
                     document.getElementById('live-game-coins').innerText = gameScore;
-                    // Reset web position
-                    w.x = Math.random() * (canvas.width - 60) + 30;
-                    w.y = Math.random() * (canvas.height - 100) + 30;
+                    // Respawn web elsewhere
+                    w.x = Math.random() * (canvas.width - 80) + 40;
+                    w.y = Math.random() * (canvas.height - 120) + 40;
+                    w.mult = (Math.random() * 1.5 + 1.5).toFixed(1);
                 }
             }
 
-            // Draw Spider Player
+            // Draw Spider Player in bottom right/moving
             ctx.font = '32px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
@@ -210,11 +213,11 @@
 
         function closeWebJumpGame() {
             cancelAnimationFrame(animId);
-            let earned = gameScore - 4200;
+            let earned = gameScore - 8065;
             if(earned > 0) {
                 balance += earned;
                 updateBalance();
-                alert(`Game Saved! Added +${earned} $SPDR to your total balance.`);
+                alert(`Success! Added +${earned} $SPDR tokens to your total balance.`);
             }
             document.getElementById('webjumpModal').style.display = 'none';
         }
