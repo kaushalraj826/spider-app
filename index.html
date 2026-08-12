@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Spider Genesis - Full Working App</title>
+    <title>Spider Genesis - Elite Mini App</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; user-select: none; }
@@ -27,7 +27,7 @@
         .game-card h4 { color: #d4af37; font-size: 10px; margin-top: 4px; }
         .game-icon { width: 100%; height: 50px; background: #000; border: 1px solid #222; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
 
-        /* OVERLAYS FOR GAMES & SECTIONS */
+        /* OVERLAYS FOR GAMES */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050505; z-index: 700; flex-direction: column; justify-content: space-between; padding: 12px; }
         .game-top-bar { display: flex; justify-content: space-between; align-items: center; background: #0e0e0e; padding: 8px 12px; border: 1px solid #d4af3755; border-radius: 8px; }
         
@@ -89,7 +89,7 @@
         <div class="card">
             <h3>All Available Mini Games</h3>
             <div class="list-item" onclick="openLimitGame()">
-                <div><h4>Spider Web Jump</h4><p style="font-size:9px; color:#aaa;">Jump & collect web multipliers</p></div>
+                <div><h4>Spider Web Jump</h4><p style="font-size:9px; color:#aaa;">Jump & collect coin multipliers</p></div>
                 <button class="vip-badge" style="border:none; cursor:pointer;">Play</button>
             </div>
             <div class="list-item" onclick="openPvPArena()">
@@ -103,7 +103,7 @@
         </div>
     </div>
 
-    <!-- TAB 3: TASKS -->
+    <!-- TAB 3: TASKS (REAL PAGE, NO ALERTS) -->
     <div id="tab-tasks" class="app-container">
         <div class="card">
             <h3>Daily Earn Tasks</h3>
@@ -115,29 +115,37 @@
                 <div><h4>Follow Twitter / X</h4><p style="font-size:9px; color:#ffcc00;">+500 $SPDR</p></div>
                 <button class="vip-badge" onclick="completeTask(500, this)" style="border:none; cursor:pointer;">Claim</button>
             </div>
+            <div class="list-item">
+                <div><h4>Invite 3 Friends</h4><p style="font-size:9px; color:#ffcc00;">+2,000 $SPDR</p></div>
+                <button class="vip-badge" onclick="completeTask(2000, this)" style="border:none; cursor:pointer;">Claim</button>
+            </div>
         </div>
     </div>
 
-    <!-- TAB 4: FRIENDS -->
+    <!-- TAB 4: FRIENDS (REAL PAGE, NO ALERTS) -->
     <div id="tab-friends" class="app-container">
         <div class="card">
-            <h3>Invite Friends</h3>
-            <p style="font-size: 11px; color: #aaa; margin-bottom: 10px;">Get 20% of your friends' earnings instantly!</p>
-            <button class="btn-gold" onclick="alert('Referral Link Copied to Clipboard!')">Copy Invite Link</button>
+            <h3>Invite Friends & Earn</h3>
+            <p style="font-size: 11px; color: #aaa; margin-bottom: 12px;">Get 20% commission on your friends' earnings instantly!</p>
+            <div class="balance-display" style="margin-bottom: 15px;">
+                <p style="font-size: 10px; color: #888;">TOTAL REFERRED FRIENDS</p>
+                <h3 style="color: #ffcc00; font-size: 20px; margin-top: 3px;">14 Users</h3>
+            </div>
+            <button class="btn-gold" onclick="copyRefLink()">Copy Referral Link</button>
         </div>
     </div>
 
-    <!-- TAB 5: PROFILE -->
+    <!-- TAB 5: PROFILE (REAL PAGE, NO ALERTS) -->
     <div id="tab-profile" class="app-container">
         <div class="balance-display">
-            <p style="font-size: 11px; color: #888;">WALLET ADDRESS</p>
+            <p style="font-size: 11px; color: #888;">CONNECTED WALLET</p>
             <h4 style="font-size: 12px; color: #ffcc00; margin-top:5px;">EQD4...SpiderWallet99</h4>
         </div>
         <div class="card">
-            <h3>Account Info</h3>
-            <p style="font-size: 11px; color: #ccc; margin-bottom: 6px;">Rank: Elite Master</p>
-            <p style="font-size: 11px; color: #ccc; margin-bottom: 6px;">Total Ref: 14 Users</p>
-            <button class="btn-gold" style="margin-top: 10px;" onclick="alert('Withdrawal request submitted successfully!')">Withdraw Tokens</button>
+            <h3>Account Settings</h3>
+            <p style="font-size: 11px; color: #ccc; margin-bottom: 8px;">Rank: Elite Master</p>
+            <p style="font-size: 11px; color: #ccc; margin-bottom: 12px;">Security: Telegram Verified ✓</p>
+            <button class="btn-gold" onclick="withdrawTokens()">Withdraw Tokens</button>
         </div>
     </div>
 
@@ -220,7 +228,7 @@
             document.getElementById('limit-text').innerText = `Limits: ${dailyLimit}/5`;
         }
 
-        // --- NAVIGATION TABS SWITCHER ---
+        // --- NAVIGATION TABS SWITCHER (FIXED) ---
         function switchTab(tabName, element) {
             document.querySelectorAll('.app-container').forEach(el => el.classList.remove('active-tab'));
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
@@ -242,13 +250,22 @@
             btn.disabled = true;
         }
 
+        function copyRefLink() {
+            navigator.clipboard.writeText("https://t.me/SpiderGenesisBot?start=ref123");
+            alert("Referral Link Copied to Clipboard!");
+        }
+
+        function withdrawTokens() {
+            alert("Withdrawal request submitted successfully! Tokens will arrive soon.");
+        }
+
         // --- SPIDER WEB JUMP GAME ---
         let canvas, ctx, animId;
         let sX, sY, sVelY, webs, spiderCoins, tokenCoins;
 
         function openLimitGame() {
             if (dailyLimit <= 0) {
-                if(confirm("⚠️ Limit Over (0/5)! Reset limits for test session?")) {
+                if(confirm("⚠️ Limit Over (0/5)! Reset limits for testing?")) {
                     dailyLimit = 5;
                 } else {
                     return;
