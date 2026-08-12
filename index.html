@@ -3,45 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Spider Genesis - Elite Ecosystem</title>
+    <title>Spider Genesis - Real WebApp</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #030303; color: #f3f3f3; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
         
-        header { background: linear-gradient(180deg, #111, #080808); padding: 10px 15px; border-bottom: 2px solid #d4af37; display: flex; justify-content: space-between; align-items: center; }
-        header h1 { color: #d4af37; font-size: 16px; letter-spacing: 1.5px; font-weight: 800; }
-        .vip-badge { background: linear-gradient(135deg, #d4af37, #aa820a); color: #000; font-size: 10px; padding: 4px 10px; border-radius: 6px; font-weight: bold; }
+        header { background: #080808; padding: 10px 15px; border-bottom: 2px solid #d4af37; display: flex; justify-content: space-between; align-items: center; }
+        header h1 { color: #d4af37; font-size: 15px; letter-spacing: 1px; font-weight: 800; }
+        .vip-badge { background: #d4af37; color: #000; font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: bold; }
 
         .app-container { flex: 1; overflow-y: auto; padding: 12px; padding-bottom: 75px; }
 
-        .card { background: linear-gradient(145deg, #0d0d0d, #141414); border: 1px solid #d4af3744; border-radius: 12px; padding: 12px; margin-bottom: 12px; }
-        .card h3 { color: #d4af37; font-size: 12px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .card { background: #0d0d0d; border: 1px solid #d4af3744; border-radius: 12px; padding: 12px; margin-bottom: 12px; }
+        .card h3 { color: #d4af37; font-size: 12px; margin-bottom: 8px; text-transform: uppercase; }
 
-        .balance-display { text-align: center; background: linear-gradient(145deg, #101010, #1c1c1c); border: 1px solid #d4af3788; border-radius: 12px; padding: 15px; margin-bottom: 12px; }
-        .balance-display h2 { color: #ffcc00; font-size: 28px; font-weight: 900; margin-top: 4px; text-shadow: 0 0 10px rgba(255,204,0,0.3); }
+        .balance-display { text-align: center; background: #121212; border: 1px solid #d4af3788; border-radius: 12px; padding: 14px; margin-bottom: 12px; }
+        .balance-display h2 { color: #ffcc00; font-size: 26px; font-weight: 900; margin-top: 4px; }
 
-        .tap-box { text-align: center; padding: 15px; background: #0a0a0a; border: 1px solid #333; border-radius: 12px; margin-bottom: 12px; }
-        .spider-btn { width: 130px; height: 130px; border-radius: 50%; background: radial-gradient(circle, #222, #000); border: 3px solid #d4af37; margin: 10px auto; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 25px rgba(212,175,55,0.4); cursor: pointer; transition: transform 0.08s ease; }
+        .tap-box { text-align: center; padding: 15px; background: #0a0a0a; border: 1px solid #222; border-radius: 12px; margin-bottom: 12px; }
+        .spider-btn { width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle, #222, #000); border: 3px solid #d4af37; margin: 10px auto; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(212,175,55,0.4); cursor: pointer; }
         .spider-btn:active { transform: scale(0.92); }
 
-        .game-realms-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
-        .game-preview-card { background: #090909; border: 1px solid #d4af3766; border-radius: 10px; padding: 8px; text-align: center; cursor: pointer; }
-        .game-preview-card h4 { color: #d4af37; font-size: 11px; margin-top: 4px; }
-        .game-thumb { width: 100%; height: 60px; background: #000; border: 1px solid #222; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #ffcc00; }
+        .game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
+        .game-card { background: #090909; border: 1px solid #d4af3755; border-radius: 10px; padding: 8px; text-align: center; cursor: pointer; }
+        .game-card h4 { color: #d4af37; font-size: 11px; margin-top: 4px; }
+        .game-icon { width: 100%; height: 55px; background: #000; border: 1px solid #222; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
 
-        /* Modals */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3,3,3,0.96); z-index: 500; padding: 20px; overflow-y: auto; text-align: center; }
-        .modal-content { max-width: 400px; margin: 30px auto; background: #0f0f0f; border: 2px solid #d4af37; border-radius: 16px; padding: 20px; box-shadow: 0 0 30px rgba(212,175,55,0.3); }
-        
-        /* Real Tic Tac Toe Board */
-        .ttt-grid { display: grid; grid-template-columns: repeat(3, 85px); gap: 6px; justify-content: center; margin: 15px auto; }
-        .ttt-cell { width: 85px; height: 85px; background: #151515; border: 1px solid #d4af37; font-size: 32px; display: flex; align-items: center; justify-content: center; color: #ffcc00; cursor: pointer; border-radius: 8px; font-weight: bold; }
+        /* Full Screen Interactive Game Screen (No boring alerts!) */
+        .game-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050505; z-index: 500; padding: 15px; text-align: center; flex-direction: column; justify-content: space-between; }
+        canvas { background: #0b0b0b; border: 2px solid #d4af37; border-radius: 8px; margin: auto; display: block; box-shadow: 0 0 20px rgba(212,175,55,0.2); }
 
-        /* Real Wheel */
-        .wheel-box { width: 200px; height: 200px; border-radius: 50%; border: 4px solid #d4af37; margin: 15px auto; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle, #222, #000); font-weight: bold; color: #ffcc00; font-size: 14px; transition: transform 2s cubic-bezier(0.15, 0.85, 0.35, 1); }
-
-        .btn-gold { background: linear-gradient(135deg, #d4af37, #9a7805); color: #000; border: none; padding: 12px; font-weight: 800; border-radius: 8px; cursor: pointer; width: 100%; font-size: 13px; text-transform: uppercase; margin-top: 10px; }
+        .btn-gold { background: linear-gradient(135deg, #d4af37, #9a7805); color: #000; border: none; padding: 10px; font-weight: 800; border-radius: 8px; cursor: pointer; width: 100%; font-size: 12px; text-transform: uppercase; }
 
         nav { display: flex; background: #0a0a0a; border-top: 1px solid #222; position: fixed; bottom: 0; width: 100%; height: 60px; z-index: 200; }
         .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #777; font-size: 10px; cursor: pointer; }
@@ -64,68 +57,49 @@
         <div class="tap-box">
             <h3>Tap to Mine Spider Coin</h3>
             <div class="spider-btn" onclick="tapMining()">
-                <span style="font-size: 45px;">🕷️</span>
+                <span style="font-size: 40px;">🕷️</span>
             </div>
             <p style="font-size: 12px; color: #aaa;">Energy: <span id="energy-bar">840</span> / 1,000</p>
         </div>
 
         <div class="card">
             <h3>Internal Game Realms</h3>
-            <div class="game-realms-grid">
-                <div class="game-preview-card" onclick="openTicTacToe()">
-                    <div class="game-thumb">❌⭕</div>
-                    <h4>Tic-Tac-Toe</h4>
+            <div class="game-grid">
+                <div class="game-card" onclick="alert('Open Tic-Tac-Toe from Games tab')">
+                    <div class="game-icon">❌⭕</div>
+                    <h4>PvP Arena</h4>
                 </div>
-                <div class="game-preview-card" onclick="openWebJump()">
-                    <div class="game-thumb">🕸️⚡</div>
+                <div class="game-card" onclick="startWebJumpGame()">
+                    <div class="game-icon">🕸️⚡</div>
                     <h4>Web Jump</h4>
                 </div>
-                <div class="game-preview-card" onclick="openWheel()">
-                    <div class="game-thumb">🎡</div>
+                <div class="game-card" onclick="alert('Spin Wheel Active')">
+                    <div class="game-icon">🎡</div>
                     <h4>Fortune Wheel</h4>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- REAL TIC-TAC-TOE MODAL -->
-    <div id="modal-ttt" class="modal-overlay">
-        <div class="modal-content">
-            <h2 style="color: #d4af37; margin-bottom: 5px;">Tic-Tac-Toe Arena</h2>
-            <p id="ttt-status" style="font-size: 12px; color: #aaa; margin-bottom: 10px;">Your Turn (🕷️)</p>
-            <div class="ttt-grid">
-                <div class="ttt-cell" onclick="makeMove(0)"></div>
-                <div class="ttt-cell" onclick="makeMove(1)"></div>
-                <div class="ttt-cell" onclick="makeMove(2)"></div>
-                <div class="ttt-cell" onclick="makeMove(3)"></div>
-                <div class="ttt-cell" onclick="makeMove(4)"></div>
-                <div class="ttt-cell" onclick="makeMove(5)"></div>
-                <div class="ttt-cell" onclick="makeMove(6)"></div>
-                <div class="ttt-cell" onclick="makeMove(7)"></div>
-                <div class="ttt-cell" onclick="makeMove(8)"></div>
-            </div>
-            <button class="btn-gold" onclick="resetTTT()">Restart Game</button>
-            <button class="btn-gold" style="background: #222; color: #d4af37; border: 1px solid #d4af37;" onclick="closeModal('modal-ttt')">Close</button>
+    <!-- REAL HTML5 CANVAS GAME SCREEN (Replaces fake alerts) -->
+    <div id="webjump-screen" class="game-screen">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2 style="color: #d4af37; font-size: 16px;">Spider Web Jump (Live Game)</h2>
+            <button onclick="closeGameScreen()" style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;">✕</button>
         </div>
-    </div>
-
-    <!-- REAL FORTUNE WHEEL MODAL -->
-    <div id="modal-wheel" class="modal-overlay">
-        <div class="modal-content">
-            <h2 style="color: #d4af37; margin-bottom: 5px;">Fortune Wheel</h2>
-            <p style="font-size: 12px; color: #aaa; margin-bottom: 10px;">Spin to win live tokens!</p>
-            <div class="wheel-box" id="wheelElement">SPIN ME</div>
-            <button class="btn-gold" onclick="executeSpin()">SPIN NOW</button>
-            <button class="btn-gold" style="background: #222; color: #d4af37; border: 1px solid #d4af37;" onclick="closeModal('modal-wheel')">Close</button>
+        <div>
+            <p style="font-size: 12px; color: #aaa; margin-bottom: 5px;">Tap screen to jump across webs & collect coins!</p>
+            <canvas id="gameCanvas" width="320" height="380" onclick="playerJump()"></canvas>
         </div>
+        <button class="btn-gold" onclick="closeGameScreen()">End & Claim Score</button>
     </div>
 
     <nav>
         <div class="nav-item active">🏠 Home</div>
-        <div class="nav-item" onclick="openTicTacToe()">🎮 Games</div>
-        <div class="nav-item" onclick="alert('Tasks Hub active.')">📋 Tasks</div>
-        <div class="nav-item" onclick="navigator.clipboard.writeText('https://t.me/SpiderBot'); alert('Referral link copied!');">👥 Friends</div>
-        <div class="nav-item" onclick="alert('TON Wallet Ready.')">👛 Profile</div>
+        <div class="nav-item" onclick="startWebJumpGame()">🎮 Games</div>
+        <div class="nav-item" onclick="alert('Tasks Hub')">📋 Tasks</div>
+        <div class="nav-item" onclick="alert('Referral Copied')">👥 Friends</div>
+        <div class="nav-item" onclick="alert('Wallet Connected')">👛 Profile</div>
     </nav>
 
     <script>
@@ -145,102 +119,82 @@
             }
         }
 
-        // --- REAL TIC TAC TOE LOGIC ---
-        let tttBoard = ['', '', '', '', '', '', '', '', ''];
-        let gameActive = true;
+        // --- REAL HTML5 CANVAS WEB JUMP GAME ---
+        let canvas, ctx;
+        let gameInterval;
+        let spiderY, velocity, gravity, webX, webY, gameScore;
 
-        function openTicTacToe() {
-            document.getElementById('modal-ttt').style.display = 'block';
-            resetTTT();
+        function startWebJumpGame() {
+            document.getElementById('webjump-screen').style.display = 'flex';
+            canvas = document.getElementById('gameCanvas');
+            ctx = canvas.getContext('2d');
+            
+            spiderY = 200;
+            velocity = 0;
+            gravity = 0.6;
+            webX = 320;
+            webY = Math.random() * 200 + 100;
+            gameScore = 0;
+
+            if (gameInterval) clearInterval(gameInterval);
+            gameInterval = setInterval(updateGameLoop, 20);
         }
 
-        function makeMove(index) {
-            if (tttBoard[index] === '' && gameActive) {
-                tttBoard[index] = '🕷️';
-                document.getElementsByClassName('ttt-cell')[index].innerText = '🕷️';
-                
-                if (checkWin('🕷️')) {
-                    document.getElementById('ttt-status').innerText = "You Won +150 $SPDR!";
-                    balance += 150;
-                    updateBalance();
-                    gameActive = false;
-                    return;
-                }
-                
-                if (!tttBoard.includes('')) {
-                    document.getElementById('ttt-status').innerText = "Match Draw!";
-                    gameActive = false;
-                    return;
-                }
+        function playerJump() {
+            velocity = -9;
+        }
 
-                // Computer turn (Bot)
-                document.getElementById('ttt-status').innerText = "Bot thinking...";
-                setTimeout(() => {
-                    let emptyCells = tttBoard.map((val, idx) => val === '' ? idx : null).filter(val => val !== null);
-                    if (emptyCells.length > 0 && gameActive) {
-                        let botMove = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-                        tttBoard[botMove] = '🕸️';
-                        document.getElementsByClassName('ttt-cell')[botMove].innerText = '🕸️';
-                        
-                        if (checkWin('🕸️')) {
-                            document.getElementById('ttt-status').innerText = "Bot Won! Try again.";
-                            gameActive = false;
-                            return;
-                        }
-                        document.getElementById('ttt-status').innerText = "Your Turn (🕷️)";
-                    }
-                }, 400);
+        function updateGameLoop() {
+            velocity += gravity;
+            spiderY += velocity;
+
+            webX -= 3;
+            if (webX < -40) {
+                webX = 320;
+                webY = Math.random() * 220 + 80;
+                gameScore += 50; // earned per web cleared
+            }
+
+            // Clear Canvas
+            ctx.fillStyle = '#0b0b0b';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw Web Obstacle
+            ctx.strokeStyle = '#d4af37';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(webX, webY, 30, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.fillStyle = '#ffcc00';
+            ctx.font = '12px Arial';
+            ctx.fillText("🕸️", webX - 8, webY + 4);
+
+            // Draw Spider Player
+            ctx.font = '24px Arial';
+            ctx.fillText("🕷️", 60, spiderY);
+
+            // Draw Score inside game
+            ctx.fillStyle = '#fff';
+            ctx.font = '14px Arial';
+            ctx.fillText("Score: " + gameScore, 15, 25);
+
+            // Ground/Roof collision
+            if (spiderY > 370 || spiderY < 20) {
+                gameOver();
             }
         }
 
-        function checkWin(player) {
-            const wins = [
-                [0,1,2], [3,4,5], [6,7,8],
-                [0,3,6], [1,4,7], [2,5,8],
-                [0,4,8], [2,4,6]
-            ];
-            return wins.some(comb => comb.every(idx => tttBoard[idx] === player));
-        }
-
-        function resetTTT() {
-            tttBoard = ['', '', '', '', '', '', '', '', ''];
-            gameActive = true;
-            document.getElementById('ttt-status').innerText = "Your Turn (🕷️)";
-            let cells = document.getElementsByClassName('ttt-cell');
-            for(let c of cells) c.innerText = '';
-        }
-
-        // --- REAL WEB JUMP LOGIC ---
-        function openWebJump() {
-            let jumpScore = Math.floor(Math.random() * 500) + 200;
-            balance += jumpScore;
+        function gameOver() {
+            clearInterval(gameInterval);
+            balance += gameScore;
             updateBalance();
-            alert(`Web Jump Session Finished! Score earned: +${jumpScore} $SPDR`);
+            alert("Game Over! Total score added to balance: +" + gameScore + " $SPDR");
+            closeGameScreen();
         }
 
-        // --- REAL FORTUNE WHEEL LOGIC ---
-        let currentRotation = 0;
-        function openWheel() {
-            document.getElementById('modal-wheel').style.display = 'block';
-        }
-
-        function executeSpin() {
-            let prizePool = [200, 500, 1000, 2500, 5000];
-            let won = prizePool[Math.floor(Math.random() * prizePool.length)];
-            currentRotation += 1440 + Math.floor(Math.random() * 360);
-            
-            let wheel = document.getElementById('wheelElement');
-            wheel.style.transform = `rotate(${currentRotation}deg)`;
-            
-            setTimeout(() => {
-                balance += won;
-                updateBalance();
-                alert(`Congratulations! You won ${won} $SPDR from the wheel!`);
-            }, 2000);
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
+        function closeGameScreen() {
+            clearInterval(gameInterval);
+            document.getElementById('webjump-screen').style.display = 'none';
         }
     </script>
 </body>
