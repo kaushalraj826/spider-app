@@ -8,31 +8,32 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #050505; color: #f3f3f3; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-        header { background: #0f0f0f; padding: 12px; text-align: center; border-bottom: 2px solid #d4af37; display: flex; justify-content: space-between; align-items: center; }
-        header h1 { color: #d4af37; font-size: 16px; letter-spacing: 1px; }
+        
+        header { background: #0f0f0f; padding: 10px 15px; text-align: center; border-bottom: 2px solid #d4af37; display: flex; justify-content: space-between; align-items: center; }
+        header h1 { color: #d4af37; font-size: 15px; letter-spacing: 1px; }
         .badge { background: #d4af37; color: #000; font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: bold; }
-        
-        .balance-box { background: linear-gradient(145deg, #121212, #1a1a1a); margin: 10px; padding: 15px; border-radius: 12px; border: 1px solid #d4af3755; text-align: center; }
-        .balance-box h2 { color: #ffcc00; font-size: 26px; margin-top: 4px; text-shadow: 0 0 10px rgba(255,204,0,0.3); }
 
-        .container { flex: 1; overflow-y: auto; padding: 10px 10px 70px 10px; display: none; }
-        .container.active { display: block; }
+        .main-container { flex: 1; overflow-y: auto; padding: 10px; padding-bottom: 70px; }
         
-        .section-card { background: #111; border: 1px solid #222; border-radius: 10px; padding: 15px; margin-bottom: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .section-card h3 { color: #d4af37; font-size: 15px; margin-bottom: 8px; }
-        
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
-        .mini-btn { background: #1a1a1a; border: 1px solid #d4af37; color: #d4af37; padding: 10px 5px; border-radius: 8px; text-align: center; font-size: 11px; cursor: pointer; font-weight: bold; }
-        .mini-btn:active { background: #d4af37; color: #000; }
+        .section-card { background: #0e0e0e; border: 1px solid #d4af3744; border-radius: 12px; padding: 12px; margin-bottom: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
+        .section-card h3 { color: #d4af37; font-size: 13px; margin-bottom: 8px; text-transform: uppercase; border-bottom: 1px solid #222; padding-bottom: 4px; }
 
-        .main-tap-circle { width: 160px; height: 160px; border-radius: 50%; background: radial-gradient(circle, #222, #000); border: 3px solid #d4af37; margin: 20px auto; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(212,175,55,0.4); cursor: pointer; }
-        
-        /* Game Modal / Screens */
-        .game-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 200; padding: 20px; text-align: center; }
-        .tic-tac-grid { display: grid; grid-template-columns: repeat(3, 80px); gap: 5px; justify-content: center; margin: 20px auto; }
-        .cell { width: 80px; height: 80px; background: #1a1a1a; border: 1px solid #d4af37; font-size: 32px; display: flex; align-items: center; justify-content: center; color: #d4af37; cursor: pointer; }
+        .balance-box { background: linear-gradient(145deg, #121212, #1a1a1a); text-align: center; padding: 12px; border-radius: 10px; border: 1px solid #d4af3777; margin-bottom: 12px; }
+        .balance-box h2 { color: #ffcc00; font-size: 24px; margin-top: 2px; text-shadow: 0 0 10px rgba(255,204,0,0.4); }
 
-        nav { display: flex; background: #0d0d0d; border-top: 1px solid #222; position: fixed; bottom: 0; width: 100%; height: 60px; z-index: 100; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 8px; }
+        .action-btn { background: #181818; border: 1px solid #d4af37; color: #d4af37; padding: 10px 4px; border-radius: 8px; text-align: center; font-size: 10px; cursor: pointer; font-weight: bold; }
+        .action-btn:active { background: #d4af37; color: #000; }
+
+        .tap-circle { width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle, #222, #000); border: 2px solid #d4af37; margin: 10px auto; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(212,175,55,0.3); cursor: pointer; }
+
+        /* Modal Overlay for Games */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 300; padding: 20px; text-align: center; overflow-y: auto; }
+        .tic-tac-grid { display: grid; grid-template-columns: repeat(3, 75px); gap: 5px; justify-content: center; margin: 20px auto; }
+        .cell { width: 75px; height: 75px; background: #151515; border: 1px solid #d4af37; font-size: 28px; display: flex; align-items: center; justify-content: center; color: #d4af37; cursor: pointer; }
+
+        /* Bottom Nav */
+        nav { display: flex; background: #0d0d0d; border-top: 1px solid #222; position: fixed; bottom: 0; width: 100%; height: 55px; z-index: 200; }
         .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #777; font-size: 10px; cursor: pointer; }
         .nav-item.active { color: #d4af37; font-weight: bold; }
     </style>
@@ -44,90 +45,83 @@
         <div class="badge">VIP 3 / LVL 42</div>
     </header>
 
-    <div class="balance-box">
-        <p style="font-size: 12px; color: #888;">TOTAL REWARD POOL & BALANCE</p>
-        <h2 id="balance-display">23,985.75 $SPDR</h2>
-    </div>
+    <div class="main-container">
 
-    <!-- HOME / TAP TAB -->
-    <div id="tab-home" class="container active">
-        <div class="section-card" style="text-align: center;">
-            <h3>Tap to Mine Spider Coin</h3>
-            <div class="main-tap-circle" onclick="tapAction()">
-                <span style="font-size: 40px;">🕷️</span>
-            </div>
-            <p style="font-size: 12px; color: #aaa;">Energy: <span id="energy-val">840</span> / 1,000</p>
+        <div class="balance-box">
+            <p style="font-size: 11px; color: #888;">TOTAL REWARD POOL & BALANCE</p>
+            <h2 id="balance-display">23,985.75 $SPDR</h2>
         </div>
+
+        <!-- PROFILE & ENERGY VAULT -->
         <div class="section-card">
-            <h3>Active Boosters & Vault</h3>
-            <p style="font-size: 12px; color: #888;">Passive Bot: Level 3 | Multi-Jump: Level II</p>
+            <h3>User Profile & Energy Vault</h3>
+            <p style="font-size: 11px; color: #aaa; margin-bottom: 5px;">Active Boosters: Passive Bot (Lvl 3) | Multi-Jump (Lvl II)</p>
+            <div style="text-align: center;">
+                <div class="tap-circle" onclick="tapAction()">
+                    <span style="font-size: 35px;">🕷️</span>
+                </div>
+                <p style="font-size: 11px; color: #aaa;">Energy: <span id="energy-val">840</span> / 1,000</p>
+            </div>
         </div>
-    </div>
 
-    <!-- GAMES REALMS TAB -->
-    <div id="tab-games" class="container">
+        <!-- INTERNAL GAME REALMS -->
         <div class="section-card">
             <h3>Internal Game Realms</h3>
             <div class="grid-3">
-                <div class="mini-btn" onclick="openTicTacToe()">Tic-Tac-Toe</div>
-                <div class="mini-btn" onclick="openWebJump()">Web Jump</div>
-                <div class="mini-btn" onclick="openFortuneWheel()">Fortune Wheel</div>
+                <div class="action-btn" onclick="openTicTacToe()">Tic-Tac-Toe</div>
+                <div class="action-btn" onclick="openWebJump()">Web Jump</div>
+                <div class="action-btn" onclick="openFortuneWheel()">Fortune Wheel</div>
             </div>
         </div>
-    </div>
 
-    <!-- TASKS TAB -->
-    <div id="tab-tasks" class="container">
+        <!-- SPIDER GENESIS NFT HUB -->
         <div class="section-card">
-            <h3>Catch Prey & Tasks</h3>
-            <p style="font-size: 12px; color: #888; margin-bottom: 10px;">Complete tasks to unlock instant token rewards.</p>
-            <button class="mini-btn" style="width:100%; padding: 12px;" onclick="alert('Task Verified! +500 $SPDR Added')">Verify Telegram Channel</button>
+            <h3>NFT Marketplace Hub</h3>
+            <p style="font-size: 11px; color: #888; margin-bottom: 8px;">TON Connect Marketplace Integration</p>
+            <div class="grid-3">
+                <div class="action-btn" onclick="alert('Common NFT Minted!')">Common NFT</div>
+                <div class="action-btn" onclick="alert('Rare Web NFT Unlocked!')">Rare Web</div>
+                <div class="action-btn" onclick="alert('Legendary Spider Staked!')">Legendary</div>
+            </div>
         </div>
-    </div>
 
-    <!-- FRIENDS / REF TAB -->
-    <div id="tab-friends" class="container">
+        <!-- TASKS & REFERRAL NETWORK -->
         <div class="section-card">
-            <h3>Referral Network</h3>
-            <p style="font-size: 12px; color: #888; margin-bottom: 10px;">Invite friends to build your web and earn direct commissions.</p>
-            <button class="mini-btn" style="width:100%; padding: 12px;" onclick="copyReferral()">Generate Referral Link</button>
+            <h3>Tasks & Referral Network</h3>
+            <p style="font-size: 11px; color: #888; margin-bottom: 8px;">Invite friends & complete community prey checks.</p>
+            <div style="display: flex; gap: 8px;">
+                <div class="action-btn" style="flex:1;" onclick="alert('Daily Check-in Claimed! +100 $SPDR')">Catch Prey</div>
+                <div class="action-btn" style="flex:1;" onclick="copyReferral()">Referral Link</div>
+            </div>
         </div>
-    </div>
 
-    <!-- PROFILE & WALLET TAB -->
-    <div id="tab-profile" class="container">
-        <div class="section-card">
-            <h3>NFT Marketplace & Wallet</h3>
-            <p style="font-size: 12px; color: #888; margin-bottom: 10px;">Connected TON Wallet: Ready</p>
-            <button class="mini-btn" style="width:100%; padding: 12px;" onclick="alert('TON Connect Initialized')">Disconnect / Manage</button>
-        </div>
     </div>
 
     <!-- TIC-TAC-TOE GAME MODAL -->
-    <div id="tictactoe-modal" class="game-modal">
-        <h2 style="color: #d4af37; margin-bottom: 10px;">Tic-Tac-Toe Arena</h2>
-        <p style="font-size: 12px; color: #aaa; margin-bottom: 15px;">Win to claim +150 $SPDR tokens</p>
-        <div class="tic-tac-grid" id="board">
-            <div class="cell" onclick="makeMove(0)"></div>
-            <div class="cell" onclick="makeMove(1)"></div>
-            <div class="cell" onclick="makeMove(2)"></div>
-            <div class="cell" onclick="makeMove(3)"></div>
-            <div class="cell" onclick="makeMove(4)"></div>
-            <div class="cell" onclick="makeMove(5)"></div>
-            <div class="cell" onclick="makeMove(6)"></div>
-            <div class="cell" onclick="makeMove(7)"></div>
-            <div class="cell" onclick="makeMove(8)"></div>
+    <div id="tictactoe-modal" class="modal">
+        <h2 style="color: #d4af37; margin-bottom: 5px;">Tic-Tac-Toe Arena</h2>
+        <p style="font-size: 11px; color: #aaa; margin-bottom: 10px;">Win PvP match to win tokens</p>
+        <div class="tic-tac-grid">
+            <div class="cell" onclick="makeMove(this)"></div>
+            <div class="cell" onclick="makeMove(this)"></div>
+            <div class="cell" onclick="makeMove(this)"></div>
+            <div class="cell" onclick="makeMove(this)"></div>
+            <div class="cell" onclick="makeMove(this)"></div>
+            <div class="cell" onclick="makeMove(this)"></div>
+            <div class="cell" onclick="makeMove(this)"></div>
+            <div class="cell" onclick="makeMove(this)"></div>
+            <div class="cell" onclick="makeMove(this)"></div>
         </div>
-        <button class="mini-btn" style="padding: 10px 20px; margin-top: 20px;" onclick="closeModal('tictactoe-modal')">Close Game</button>
+        <button class="action-btn" style="width: 150px; padding: 10px; margin-top: 15px;" onclick="closeModal()">Close Arena</button>
     </div>
 
-    <!-- NAVIGATION BAR -->
+    <!-- BOTTOM NAVIGATION -->
     <nav>
-        <div class="nav-item active" onclick="switchTab('home', this)">🏠 Home</div>
-        <div class="nav-item" onclick="switchTab('games', this)">🎮 Games</div>
-        <div class="nav-item" onclick="switchTab('tasks', this)">📋 Tasks</div>
-        <div class="nav-item" onclick="switchTab('friends', this)">👥 Friends</div>
-        <div class="nav-item" onclick="switchTab('profile', this)">👛 Profile</div>
+        <div class="nav-item active">🏠 Home</div>
+        <div class="nav-item" onclick="openTicTacToe()">🎮 Games</div>
+        <div class="nav-item" onclick="alert('Tasks Hub Active')">📋 Tasks</div>
+        <div class="nav-item" onclick="copyReferral()">👥 Friends</div>
+        <div class="nav-item" onclick="alert('TON Wallet Connected')">👛 Profile</div>
     </nav>
 
     <script>
@@ -143,44 +137,42 @@
             }
         }
 
-        function switchTab(tabId, element) {
-            document.querySelectorAll('.container').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            document.getElementById('tab-' + tabId).classList.add('active');
-            element.classList.add('active');
-        }
-
         function openTicTacToe() {
             document.getElementById('tictactoe-modal').style.display = 'block';
         }
+
+        function closeModal() {
+            document.getElementById('tictactoe-modal').style.display = 'none';
+        }
+
         function openWebJump() {
             score += 420;
             document.getElementById('balance-display').innerText = score.toFixed(2) + " $SPDR";
-            alert("Spider Web Jump Completed! +420 $SPDR added.");
+            alert("Spider Web Jump Completed! +420 $SPDR tokens added.");
         }
+
         function openFortuneWheel() {
             score += 1000;
             document.getElementById('balance-display').innerText = score.toFixed(2) + " $SPDR";
             alert("Fortune Wheel Spun! You won 1,000 Mystery Coins!");
         }
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
 
-        let board = ['', '', '', '', '', '', '', '', ''];
-        function makeMove(index) {
-            if(board[index] === '') {
-                board[index] = '🕷️';
-                document.getElementsByClassName('cell')[index].innerText = '🕷️';
+        function makeMove(cell) {
+            if(cell.innerText === '') {
+                cell.innerText = '🕷️';
                 setTimeout(() => {
-                    score += 50;
+                    score += 150;
                     document.getElementById('balance-display').innerText = score.toFixed(2) + " $SPDR";
-                    alert("You won this round! +50 $SPDR tokens added.");
-                    closeModal('tictactoe-modal');
-                }, 300);
+                    alert("Match Won! +150 $SPDR tokens credited.");
+                    closeModal();
+                }, 200);
             }
         }
 
-    script>
+        function copyReferral() {
+            navigator.clipboard.writeText("https://t.me/SpiderCoinWalletBot?start=ref_spider777");
+            alert("Referral link copied to clipboard!");
+        }
+    </script>
 </body>
 </html>
