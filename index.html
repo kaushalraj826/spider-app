@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SPIDER Web Network — Preview</title>
+<style>
+:root{--bg:#070708;--card:#121216;--card2:#18181d;--gold:#f5b83d;--gold2:#ffcf67;--text:#f6f6f7;--muted:#9898a2;--line:#292930}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#35240d 0,#0a0908 35%,#050506 75%);color:var(--text);font-family:Inter,system-ui,Arial,sans-serif}button{font:inherit;color:inherit}
+.app{max-width:480px;margin:auto;min-height:100vh;padding-bottom:92px}.top{padding:22px 18px 8px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:1.5px}.spider{width:42px;height:42px;border-radius:14px;background:linear-gradient(145deg,#2b1d09,#111);display:grid;place-items:center;border:1px solid #5c421b;font-size:23px;box-shadow:0 0 24px #f5b83d22}.avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#f5b83d,#6b4100);display:grid;place-items:center;color:#111;font-weight:900}
+main{padding:12px 16px}.hero{padding:20px;border:1px solid #3a2a13;border-radius:24px;background:linear-gradient(145deg,#17120a,#101014);box-shadow:0 18px 50px #0008}.eyebrow{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:1.5px}.balance{font-size:38px;font-weight:950;margin:6px 0}.muted{color:var(--muted);font-size:13px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:14px}.card{background:linear-gradient(145deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:18px;padding:16px}.stat{font-size:22px;font-weight:900;margin-top:6px}.btn{border:0;border-radius:14px;background:var(--gold);color:#111;font-weight:900;padding:12px 15px;cursor:pointer}.btn.secondary{background:#202026;color:#eee;border:1px solid #35353d}.wide{width:100%;margin-top:12px}.section{margin-top:22px}.section h2{font-size:18px;margin:0 0 12px}.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.task,.nft,.friend{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}.icon{width:42px;height:42px;border-radius:13px;background:#24242a;display:grid;place-items:center;font-size:21px}.pill{padding:6px 9px;border-radius:99px;background:#201b11;color:var(--gold2);font-size:11px;font-weight:800}.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(480px,100%);background:#0b0b0deF;border-top:1px solid var(--line);backdrop-filter:blur(16px);display:grid;grid-template-columns:repeat(5,1fr);padding:9px 8px calc(9px + env(safe-area-inset-bottom));z-index:10}.nav button{background:none;border:0;color:#777780;font-size:10px;display:grid;gap:4px;justify-items:center;cursor:pointer}.nav button.active{color:var(--gold)}.nav b{font-size:19px}.screen{display:none}.screen.active{display:block}.rank{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.ranknum{width:30px;text-align:center;color:var(--gold);font-weight:900}.profileHero{text-align:center;padding:25px;border-radius:24px;background:linear-gradient(145deg,#19130a,#101014);border:1px solid #3a2a13}.bigavatar{width:78px;height:78px;border-radius:24px;margin:auto;display:grid;place-items:center;background:linear-gradient(145deg,#f5b83d,#8a5707);font-size:36px;color:#111}.tabs{display:flex;gap:8px;overflow:auto;margin:12px 0}.tabs button{white-space:nowrap;border:1px solid var(--line);background:#121216;padding:9px 12px;border-radius:99px}.game{min-height:390px;text-align:center}.board{width:270px;margin:25px auto;display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.cell{aspect-ratio:1;border:1px solid #4a3a20;background:#141419;border-radius:15px;font-size:45px;display:grid;place-items:center;color:var(--gold);cursor:pointer}.notice{padding:12px;border-radius:14px;background:#17130c;border:1px solid #493716;color:#d8bd82;font-size:12px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div class="brand"><div class="spider">🕷️</div>SPIDER</div><div class="avatar">S</div></header>
+
+<main>
+<section id="home" class="screen active">
+<div class="hero"><div class="eyebrow">WEB NETWORK</div><div class="balance">125.50 USDT</div><div class="muted">Total earned • Preview account</div><div class="grid"><div class="card"><div class="muted">Top Global</div><div class="stat">#245</div></div><div class="card"><div class="muted">Friends</div><div class="stat">128</div></div></div><button class="btn wide" onclick="show('frens')">♧ Invite Friends</button></div>
+<div class="section"><h2>Quick Access</h2><div class="grid"><button class="card" onclick="show('games')">🎮<br><b>Games</b></button><button class="card" onclick="show('tasks')">✅<br><b>Tasks</b></button><button class="card" onclick="show('nft')">🖼️<br><b>NFT Hub</b></button><button class="card" onclick="show('profile')">👤<br><b>Profile</b></button></div></div>
+<div class="section"><h2>Daily Reward</h2><div class="card row"><div><b>Daily Web Bonus</b><div class="muted">Come back every day</div></div><span class="pill">+0.50 USDT</span></div></div>
+</section>
+
+<section id="games" class="screen">
+<div class="section"><h2>🎮 Spider Games</h2><div class="notice">Daily limit: <b>5 matches</b>. Spider 🕷️ vs Web 🕸️. This preview uses demo rewards only.</div>
+<div class="card game" style="margin-top:12px"><div class="eyebrow">TIC-TAC-TOE</div><h2>🕷️ Spider VS 🕸️ Web</h2><div class="muted">Wins / Losses / Draws</div><div class="board" id="board"></div><button class="btn secondary" onclick="resetGame()">Reset Game</button></div></div>
+</section>
+
+<section id="tasks" class="screen">
+<div class="section"><h2>✅ Tasks & Missions</h2><div class="card"><div class="task"><div class="icon">📢</div><div style="flex:1"><b>Join Spider Community</b><div class="muted">One-time mission</div></div><span class="pill">+1 USDT</span></div><div class="task"><div class="icon">🤖</div><div style="flex:1"><b>Start the Telegram Bot</b><div class="muted">Daily mission</div></div><span class="pill">+0.50</span></div><div class="task"><div class="icon">🔥</div><div style="flex:1"><b>Daily Check-in</b><div class="muted">Keep your streak</div></div><span class="pill">+0.50</span></div></div></div>
+</section>
+
+<section id="frens" class="screen">
+<div class="section"><h2>♧ Referral Network</h2><div class="hero"><div class="muted">Your invite link</div><div style="font-size:13px;margin:8px 0;word-break:break-all">t.me/SpiderNetworkBot?start=AKASH128</div><button class="btn" onclick="copyLink()">Copy Link</button><div class="grid"><div class="card"><div class="muted">Friends</div><div class="stat">128</div></div><div class="card"><div class="muted">Referral Earned</div><div class="stat">80 USDT</div></div></div></div><div class="section"><h2>Top Friends</h2><div class="card"><div class="friend"><div class="icon">🥇</div><div style="flex:1"><b>SpiderKing</b><div class="muted">42 invited</div></div><span>22.5 USDT</span></div><div class="friend"><div class="icon">🥈</div><div style="flex:1"><b>WebMaster</b><div class="muted">35 invited</div></div><span>18.0 USDT</span></div></div></div></div>
+</section>
+
+<section id="nft" class="screen">
+<div class="section"><h2>🖼️ Spider NFT Hub</h2><div class="notice">Curated real NFT listings. Prices shown in USDT. External collection/source information remains available.</div><div class="card" style="margin-top:12px"><div class="nft"><div class="icon">🕷️</div><div style="flex:1"><b>Spider #1024</b><div class="muted">Verified Collection • Rare</div></div><span class="pill">25 USDT</span></div><button class="btn wide">Connect TON Wallet</button></div><div class="card" style="margin-top:12px"><div class="nft"><div class="icon">🕸️</div><div style="flex:1"><b>Web Guardian #88</b><div class="muted">Verified Collection</div></div><span class="pill">42 USDT</span></div><button class="btn wide">View NFT</button></div></div>
+</section>
+
+<section id="profile" class="screen">
+<div class="section"><div class="profileHero"><div class="bigavatar">🕷️</div><h2 style="margin:12px 0 3px">SPIDER KING</h2><div class="muted">@username</div><div style="margin:15px 0;color:var(--gold);font-weight:900">🏆 TOP GLOBAL #245</div><div class="grid"><div class="card"><div class="muted">Total Earned</div><div class="stat">125.50 USDT</div></div><div class="card"><div class="muted">Friends</div><div class="stat">128</div></div><div class="card"><div class="muted">Games</div><div class="stat">46</div></div><div class="card"><div class="muted">Tasks</div><div class="stat">82</div></div></div></div>
+<div class="section"><h2>Profile</h2><div class="card"><div class="task"><div class="icon">🌐</div><div style="flex:1"><b>Language</b><div class="muted">English</div></div><span>›</span></div><div class="task"><div class="icon">👛</div><div style="flex:1"><b>Wallet</b><div class="muted">Connect TON Wallet</div></div><span>›</span></div><div class="task"><div class="icon">🏆</div><div style="flex:1"><b>Global Ranking</b><div class="muted">USDT earned leaderboard</div></div><span>›</span></div><div class="task"><div class="icon">🖼️</div><div style="flex:1"><b>My NFT Collection</b><div class="muted">View your NFTs</div></div><span>›</span></div></div></div>
+</div>
+</section>
+
+<section id="rank" class="screen">
+<div class="section"><h2>🏆 Top Global</h2><div class="notice">Ranking is based on total USDT earned in this preview.</div><div class="card" style="margin-top:12px"><div class="rank"><div class="ranknum">1</div><div style="flex:1"><b>SpiderKing</b><div class="muted">Top Global</div></div><b>4,250 USDT</b></div><div class="rank"><div class="ranknum">2</div><div style="flex:1"><b>WebMaster</b></div><b>3,180 USDT</b></div><div class="rank"><div class="ranknum">3</div><div style="flex:1"><b>SpiderQueen</b></div><b>2,640 USDT</b></div><div class="rank"><div class="ranknum">245</div><div style="flex:1"><b>You</b></div><b>125.50 USDT</b></div></div></div>
+</section>
+</main>
+
+<nav class="nav">
+<button class="active" onclick="show('home',this)"><b>⌂</b>Home</button>
+<button onclick="show('games',this)"><b>🎮</b>Games</button>
+<button onclick="show('tasks',this)"><b>✓</b>Tasks</button>
+<button onclick="show('frens',this)"><b>♧</b>Frens</button>
+<button onclick="show('profile',this)"><b>◉</b>Profile</button>
+</nav>
+</div>
+<script>
+let cells=Array(9).fill(''), turn='S';
+function renderGame(){const b=document.getElementById('board');b.innerHTML='';cells.forEach((v,i)=>{let x=document.createElement('button');x.className='cell';x.textContent=v==='S'?'🕷️':v==='W'?'🕸️':'';x.onclick=()=>play(i);b.appendChild(x)})}
+function play(i){if(cells[i])return;cells[i]=turn;turn=turn==='S'?'W':'S';renderGame()}
+function resetGame(){cells=Array(9).fill('');turn='S';renderGame()}
+function show(id,btn){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');window.scrollTo(0,0)}
+function copyLink(){navigator.clipboard?.writeText('https://t.me/SpiderNetworkBot?start=AKASH128');alert('Referral link copied (preview)')}
+renderGame();
+</script>
+</body></html>
